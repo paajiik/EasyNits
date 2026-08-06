@@ -8,7 +8,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -16,12 +17,38 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
-class SettingsRepository(context: Context) {
+class SettingsRepository(private val context: Context) {
     
-    private val deviceProtectedContext = context.createDeviceProtectedStorageContext()
+    companion object {
+        @Volatile
+        private var dataStoreInstance: DataStore<Preferences>? = null
 
+        private fun getDataStore(context: Context): DataStore<Preferences> {
+            return dataStoreInstance ?: synchronized(this) {
+                dataStoreInstance ?: PreferenceDataStoreFactory.create(
+                    produceFile = {
+                        val deContext = context.createDeviceProtectedStorageContext()
+                        val deFile = deContext.preferencesDataStoreFile("settings")
+                        
+                        // Migration: Move existing settings from CE to DE storage if needed
+                        if (!deFile.exists()) {
+                            val ceFile = context.applicationContext.preferencesDataStoreFile("settings")
+                            if (ceFile.exists()) {
+                                try {
+                                    ceFile.renameTo(deFile)
+                                } catch (e: Exception) {
+                                    // Ignore migration failure
+                                }
+                            }
+                        }
+                        deFile
+                    }
+                ).also { dataStoreInstance = it }
+            }
+        }
+    }
+
+    private val dataStore = getDataStore(context)
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private val listType = Types.newParameterizedType(List::class.java, ScheduledOffset::class.java)
     private val adapter = moshi.adapter<List<ScheduledOffset>>(listType)
@@ -41,7 +68,7 @@ class SettingsRepository(context: Context) {
         val SCHEDULED_OFFSETS = stringPreferencesKey("scheduled_offsets")
     }
 
-    val settingsFlow: Flow<UserSettings> = deviceProtectedContext.dataStore.data.map { preferences ->
+    val settingsFlow: Flow<UserSettings> = dataStore.data.map { preferences ->
         val scheduledJson = preferences[PreferencesKeys.SCHEDULED_OFFSETS]
         val scheduledList = if (scheduledJson != null) {
             try { adapter.fromJson(scheduledJson) ?: emptyList() } catch (e: Exception) { emptyList() }
@@ -64,68 +91,68 @@ class SettingsRepository(context: Context) {
     }
 
     suspend fun updateThemeMode(mode: Int) {
-        deviceProtectedContext.dataStore.edit { it[PreferencesKeys.THEME_MODE] = mode }
+        dataStore.edit { it[PreferencesKeys.THEME_MODE] = mode }
     }
 
     suspend fun updateUseDynamicColor(use: Boolean) {
-        deviceProtectedContext.dataStore.edit { it[PreferencesKeys.DYNAMIC_COLOR] = use }
+        dataStore.edit { it[PreferencesKeys.DYNAMIC_COLOR] = use }
     }
 
     suspend fun updateCustomPrimaryColor(color: Long?) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             if (color == null) preferences.remove(PreferencesKeys.CUSTOM_PRIMARY_COLOR)
             else preferences[PreferencesKeys.CUSTOM_PRIMARY_COLOR] = color
         }
     }
 
     suspend fun updateCustomBackgroundColor(color: Long?) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             if (color == null) preferences.remove(PreferencesKeys.CUSTOM_BACKGROUND_COLOR)
             else preferences[PreferencesKeys.CUSTOM_BACKGROUND_COLOR] = color
         }
     }
 
     suspend fun updateCustomTextColor(color: Long?) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             if (color == null) preferences.remove(PreferencesKeys.CUSTOM_TEXT_COLOR)
             else preferences[PreferencesKeys.CUSTOM_TEXT_COLOR] = color
         }
     }
 
     suspend fun updateAppIcon(icon: String) {
-        deviceProtectedContext.dataStore.edit { it[PreferencesKeys.APP_ICON] = icon }
+        dataStore.edit { it[PreferencesKeys.APP_ICON] = icon }
     }
 
     suspend fun updateLanguage(language: String) {
-        deviceProtectedContext.dataStore.edit { it[PreferencesKeys.LANGUAGE] = language }
+        dataStore.edit { it[PreferencesKeys.LANGUAGE] = language }
     }
 
     suspend fun updateBrightnessOffset(offset: Int) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferencesKeys.BRIGHTNESS_OFFSET] = offset.coerceIn(-255, 255)
         }
     }
 
     suspend fun updateServiceActive(isActive: Boolean) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferencesKeys.IS_SERVICE_ACTIVE] = isActive
         }
     }
 
     suspend fun updateRunInBackground(runInBackground: Boolean) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferencesKeys.RUN_IN_BACKGROUND] = runInBackground
         }
     }
 
     suspend fun updateAutoStart(autoStart: Boolean) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferencesKeys.AUTO_START] = autoStart
         }
     }
 
     suspend fun updateScheduledOffsets(offsets: List<ScheduledOffset>) {
-        deviceProtectedContext.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferencesKeys.SCHEDULED_OFFSETS] = adapter.toJson(offsets)
         }
     }

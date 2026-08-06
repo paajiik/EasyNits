@@ -3,6 +3,7 @@ package com.easyapps.easynits.domain
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -20,6 +21,7 @@ import android.view.Choreographer
 import android.hardware.display.DisplayManager
 import androidx.core.app.NotificationCompat
 import androidx.core.os.LocaleListCompat
+import com.easyapps.easynits.MainActivity
 import com.easyapps.easynits.R
 import com.easyapps.easynits.data.LuxSensorManager
 import com.easyapps.easynits.data.SettingsRepository
@@ -147,6 +149,9 @@ class BrightnessService : Service() {
         Log.d(TAG, "onCreate")
         settingsRepository = SettingsRepository(this)
         luxSensorManager = LuxSensorManager(this)
+
+        // Show initial notification immediately to satisfy foreground service requirements
+        showInitialNotification()
         
         contentResolver.registerContentObserver(
             Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS),
@@ -305,18 +310,61 @@ class BrightnessService : Service() {
             manager?.createNotificationChannel(channel)
         }
 
+        val openAppIntent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, openAppIntent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
+
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setContentTitle(localizedContext.getString(R.string.notification_title))
             .setContentText(localizedContext.getString(R.string.notification_text))
-            // Use monochrome icon for status bar (alpha-only)
             .setSmallIcon(R.mipmap.ic_launcher_monochrome)
-            // Set the accent color of the notification (the circle around the small icon)
             .setColor(settings.customPrimaryColor?.toInt() ?: androidx.core.content.ContextCompat.getColor(this, R.color.glance_primary))
             .setColorized(false)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(true)
+            .setContentIntent(pendingIntent)
 
         val notification = notificationBuilder.build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(NOTIFICATION_ID, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+        } else {
+            startForeground(NOTIFICATION_ID, notification)
+        }
+    }
+
+    private fun showInitialNotification() {
+        val channelId = "brightness_service_channel"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "EasyNits",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager?.createNotificationChannel(channel)
+        }
+
+        val openAppIntent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, openAppIntent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
+
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setContentTitle("EasyNits")
+            .setContentText("Starting...")
+            .setSmallIcon(R.mipmap.ic_launcher_monochrome)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setOngoing(true)
+            .setContentIntent(pendingIntent)
+            .build()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(NOTIFICATION_ID, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
