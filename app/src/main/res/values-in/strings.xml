@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">EasyNits</string>
+
+    <!-- Main Screen -->
+    <string name="settings_icon_desc">Pengaturan</string>
+    <string name="sensor_lux_title">SENSOR LUX</string>
+    <string name="flux_unit">lux</string>
+    <string name="screen_nits_title">NITS LAYAR</string>
+    <string name="nits_unit">nits</string>
+    <string name="permission_required_title">Izin Diperlukan</string>
+    <string name="permission_required_desc">EasyNits membutuhkan izin untuk mengubah setelan sistem.</string>
+    <string name="grant_btn">Izinkan</string>
+    <string name="notifications_required_title">Notifikasi Diperlukan</string>
+    <string name="notifications_required_desc">Berikan izin untuk menampilkan status latar belakang.</string>
+    <string name="brightness_offset_title">Offset Kecerahan</string>
+    <string name="offset_label">Offset: %1$s</string>
+    <string name="current_brightness_percent">Kecerahan saat ini: %1$d%%</string>
+    <string name="decrease_desc">Kurangi</string>
+    <string name="increase_desc">Tambah</string>
+    <string name="toggle_timer_desc">Alihkan Timer</string>
+    <string name="add_time_frame_btn">Tambah Rentang Waktu</string>
+    <string name="activate_service_title">Aktifkan Layanan</string>
+    <string name="activate_service_desc">Otomatiskan penyesuaian kecerahan</string>
+    <string name="run_in_background_title">Jalankan di Latar Belakang</string>
+    <string name="run_in_background_desc">Biarkan aplikasi berjalan di latar belakang</string>
+    <string name="auto_start_title">Mulai Otomatis</string>
+    <string name="auto_start_desc">Mulai setelah perangkat dihidupkan</string>
+    <string name="got_it_btn">Mengerti</string>
+    <string name="auto_start_info_title">Info Mulai Otomatis</string>
+    <string name="auto_start_info_text">Jika aplikasi tidak mulai otomatis setelah booting, Anda mungkin perlu mengecualikan EasyNits dari optimasi baterai di pengaturan sistem perangkat Anda. Proses ini bervariasi tergantung produsen perangkat.</string>
+    <string name="add_scheduled_offset_title">Tambah Offset Terjadwal</string>
+    <string name="add_btn">Tambah</string>
+    <string name="cancel_btn">Batal</string>
+    <string name="start_time_label">Waktu Mulai</string>
+    <string name="end_time_label">Waktu Selesai</string>
+    <string name="ok_btn">OK</string>
+    <string name="delete_desc">Hapus</string>
+
+    <string name="every_day">Setiap hari</string>
+    <string name="day_mon">SEN</string>
+    <string name="day_tue">SEL</string>
+    <string name="day_wed">RAB</string>
+    <string name="day_thu">KAM</string>
+    <string name="day_fri">JUM</string>
+    <string name="day_sat">SAB</string>
+    <string name="day_sun">MIN</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="back_btn_desc">Kembali</string>
+    <string name="appearance_section">Tampilan</string>
+    <string name="theme_system">Sistem</string>
+    <string name="theme_light">Terang</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="theming_section">Tema</string>
+    <string name="dynamic_color_title">Warna Dinamis</string>
+    <string name="dynamic_color_desc">Gunakan warna dari wallpaper Anda (Android 12+)</string>
+    <string name="custom_primary_color_title">Warna Utama Kustom</string>
+    <string name="custom_text_color_title">Warna Teks Kustom</string>
+    <string name="custom_background_color_title">Warna Latar Belakang Kustom</string>
+    <string name="app_icon_section">Ikon Aplikasi</string>
+    <string name="language_section">Bahasa</string>
+    <string name="lang_system">Bahasa sistem</string>
+    <string name="lang_en">Inggris</string>
+    <string name="lang_de">Jerman</string>
+    <string name="lang_in">Indonesia</string>
+    <string name="lang_es">Spanyol</string>
+    <string name="lang_ar">Arab</string>
+    <string name="lang_bn">Bengali</string>
+    <string name="lang_zh">Mandarin</string>
+    <string name="lang_fr">Prancis</string>
+    <string name="lang_hi">Hindi</string>
+    <string name="lang_it">Itali</string>
+    <string name="lang_ja">Jepang</string>
+    <string name="lang_ko">Korea</string>
+    <string name="lang_pt">Portugis</string>
+    <string name="lang_ru">Rusia</string>
+    <string name="information_section">Informasi</string>
+    <string name="about_easynits_item">Tentang EasyNits</string>
+
+    <!-- About Screen -->
+    <string name="about_title">Tentang EasyNits</string>
+    <string name="description_title">Deskripsi Aplikasi</string>
+    <string name="description_content">EasyNits adalah alat manajemen kecerahan, yang mencakup fitur seperti \"Kontrol Nits Dinamis\" dengan deteksi cahaya sekitar yang cepat untuk transisi yang responsif dan mulus, \"Offset Personalisasi\" untuk menyempurnakan garis dasar kecerahan secara manual sesuai tingkat kenyamanan Anda, dan \"Rentang Waktu Terjadwal\" untuk menerapkan offset kecerahan tertentu secara otomatis untuk waktu yang berbeda dalam sehari (misalnya, layar yang lebih redup di malam hari).</string>
+    <string name="permissions_title">Izin</string>
+    <string name="permissions_content">• Ubah Setelan: Diperlukan untuk menyesuaikan tingkat kecerahan layar sistem.\n• Notifikasi: Digunakan untuk menunjukkan status layanan persisten saat berjalan di latar belakang.\n• Mulai Otomatis: Memastikan perlindungan dimulai segera setelah perangkat Anda dihidupkan.</string>
+    <string name="ai_usage_title">Penggunaan AI</string>
+    <string name="ai_usage_content">EasyApps adalah proyek vibe-coding dan dibuat dengan bantuan AI.</string>
+    <string name="credits_title">Kredit &amp; Pustaka</string>
+    <string name="credits_content">Konsep &amp; Ikon aplikasi: Marc Napitupulu\n\n[GitHub](https://github.com/marcdroid) | [Website](https://justamarc.wordpress.com/)\n\n• [Jetpack Compose](https://developer.android.com/compose)\n• [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)\n• [Material 3](https://m3.material.io)</string>
+    <string name="version_label">Versi %1$s</string>
+    <string name="easter_egg_thank_you">Terima kasih telah menggunakan EasyNits!</string>
+
+    <!-- ViewModel & Service -->
+    <string name="color_conflict_toast">Tidak dapat memilih warna ini karena tidak akan terlihat pada latar belakang.</string>
+    <string name="notification_channel_name">Layanan Kontrol Kecerahan</string>
+    <string name="notification_title">EasyNits sedang berjalan</string>
+    <string name="notification_text">Mengelola kecerahan layar</string>
+    <string name="widget_name">Offset EasyNits</string>
+    <string name="icon_changed_toast">Ikon diubah. Silakan buka kembali aplikasi.</string>
+</resources>

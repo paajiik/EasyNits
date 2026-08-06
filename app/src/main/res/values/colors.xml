@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="glance_primary">#6750A4</color>
+    <color name="glance_background">#F3F3F3</color>
+    <color name="glance_on_surface">#1C1B1F</color>
+    <color name="glance_track">#EADDFF</color>
+    <color name="glance_on_primary">#FFFFFF</color>
+    <color name="splash_bg">#FFFFFF</color>
+</resources>

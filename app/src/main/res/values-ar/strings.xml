@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">EasyNits</string>
+
+    <!-- Main Screen -->
+    <string name="settings_icon_desc">الإعدادات</string>
+    <string name="sensor_lux_title">مستشعر لوكس</string>
+    <string name="flux_unit">لوكس</string>
+    <string name="screen_nits_title">نيتس الشاشة</string>
+    <string name="nits_unit">نيتس</string>
+    <string name="permission_required_title">الإذن مطلوب</string>
+    <string name="permission_required_desc">يحتاج EasyNits إلى إذن لتعديل إعدادات النظام.</string>
+    <string name="grant_btn">منح</string>
+    <string name="notifications_required_title">الإشعارات مطلوبة</string>
+    <string name="notifications_required_desc">امنح الإذن لإظهار حالة الخلفية.</string>
+    <string name="brightness_offset_title">إزاحة السطوع</string>
+    <string name="offset_label">الإزاحة: %1$s</string>
+    <string name="current_brightness_percent">السطوع الحالي: %1$d%%</string>
+    <string name="decrease_desc">تقليل</string>
+    <string name="increase_desc">زيادة</string>
+    <string name="toggle_timer_desc">تبديل المؤقت</string>
+    <string name="add_time_frame_btn">إضافة إطار زمني</string>
+    <string name="activate_service_title">تفعيل الخدمة</string>
+    <string name="activate_service_desc">أتمتة تعديلات السطوع</string>
+    <string name="run_in_background_title">التشغيل في الخلفية</string>
+    <string name="run_in_background_desc">بقاء التطبيق يعمل في الخلفية</string>
+    <string name="auto_start_title">التشغيل التلقائي</string>
+    <string name="auto_start_desc">البدء بعد تشغيل الجهاز</string>
+    <string name="got_it_btn">حسناً</string>
+    <string name="auto_start_info_title">معلومات التشغيل التلقائي</string>
+    <string name="auto_start_info_text">إذا لم يبدأ التطبيق تلقائيًا بعد التشغيل، فقد تحتاج إلى استبعاد EasyNits من تحسين البطارية في إعدادات نظام جهازك. تختلف هذه العملية حسب الشركة المصنعة للجهاز.</string>
+    <string name="add_scheduled_offset_title">إضافة إزاحة مجدولة</string>
+    <string name="add_btn">إضافة</string>
+    <string name="cancel_btn">إلغاء</string>
+    <string name="start_time_label">وقت البدء</string>
+    <string name="end_time_label">وقت الانتهاء</string>
+    <string name="ok_btn">موافق</string>
+    <string name="delete_desc">حذف</string>
+
+    <string name="every_day">كل يوم</string>
+    <string name="day_mon">ن</string>
+    <string name="day_tue">ث</string>
+    <string name="day_wed">ر</string>
+    <string name="day_thu">خ</string>
+    <string name="day_fri">ج</string>
+    <string name="day_sat">س</string>
+    <string name="day_sun">ح</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="back_btn_desc">رجوع</string>
+    <string name="appearance_section">المظهر</string>
+    <string name="theme_system">النظام</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theming_section">السمات</string>
+    <string name="dynamic_color_title">الألوان الديناميكية</string>
+    <string name="dynamic_color_desc">استخدام الألوان من خلفية الشاشة (أندرويد 12+)</string>
+    <string name="custom_primary_color_title">لون أساسي مخصص</string>
+    <string name="custom_text_color_title">لون نص مخصص</string>
+    <string name="custom_background_color_title">لون خلفية مخصص</string>
+    <string name="app_icon_section">أيقونة التطبيق</string>
+    <string name="language_section">اللغة</string>
+    <string name="lang_system">لغة النظام</string>
+    <string name="lang_en">الإنجليزية</string>
+    <string name="lang_de">الألمانية</string>
+    <string name="lang_in">الإندونيسية</string>
+    <string name="lang_es">الإسبانية</string>
+    <string name="lang_ar">العربية</string>
+    <string name="lang_bn">البنغالية</string>
+    <string name="lang_zh">الصينية</string>
+    <string name="lang_fr">الفرنسية</string>
+    <string name="lang_hi">الهندية</string>
+    <string name="lang_it">الإيطالية</string>
+    <string name="lang_ja">اليابانية</string>
+    <string name="lang_ko">الكورية</string>
+    <string name="lang_pt">البرتغالية</string>
+    <string name="lang_ru">الروسية</string>
+    <string name="information_section">المعلومات</string>
+    <string name="about_easynits_item">حول EasyNits</string>
+
+    <!-- About Screen -->
+    <string name="about_title">حول EasyNits</string>
+    <string name="description_title">وصف التطبيق</string>
+    <string name="description_content">EasyNits هي أداة لإدارة السطوع، تتضمن ميزات مثل \"التحكم الديناميكي في النيتس\" مع الكشف السريع عن الإضاءة المحيطة لانتقالات سلسة، و \"الإزاحات الشخصية\" لضبط خط أساس السطوع يدويًا ليناسب مستوى راحتك، و \"الأطر الزمنية المجدولة\" لتطبيق إزاحات سطوع محددة تلقائيًا لأوقات مختلفة من اليوم (على سبيل المثال، شاشة باهتة في الليل).</string>
+    <string name="permissions_title">الأذونات</string>
+    <string name="permissions_content">• كتابة الإعدادات: مطلوب لضبط مستوى سطوع شاشة النظام.\n• إرسال الإشعارات: يُستخدم لإظهار حالة الخدمة المستمرة عند التشغيل في الخلفية.\n• التشغيل التلقائي: يضمن بدء الحماية فور تشغيل جهازك.</string>
+    <string name="ai_usage_title">استخدام الذكاء الاصطناعي</string>
+    <string name="ai_usage_content">EasyApps هو مشروع vibe-coding وتم إنشاؤه بمساعدة الذكاء الاصطناعي.</string>
+    <string name="credits_title">المساهمون والمكتبات</string>
+    <string name="credits_content">المفهوم وأيقونة التطبيق: Marc Napitupulu\n\n[GitHub](https://github.com/marcdroid) | [الموقع الإلكتروني](https://justamarc.wordpress.com/)\n\n• [Jetpack Compose](https://developer.android.com/compose)\n• [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)\n• [Material 3](https://m3.material.io)</string>
+    <string name="version_label">الإصدار %1$s</string>
+    <string name="easter_egg_thank_you">شكراً لاستخدامك EasyNits!</string>
+
+    <!-- ViewModel & Service -->
+    <string name="color_conflict_toast">لا يمكن اختيار هذا اللون لأنه لن يكون مرئياً مقابل الخلفية.</string>
+    <string name="notification_channel_name">خدمة التحكم في السطوع</string>
+    <string name="notification_title">EasyNits قيد التشغيل</string>
+    <string name="notification_text">إدارة سطوع الشاشة</string>
+    <string name="widget_name">EasyNits Offset</string>
+    <string name="icon_changed_toast">تم تغيير الأيقونة. يرجى إعادة فتح التطبيق.</string>
+</resources>

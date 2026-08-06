@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">EasyNits</string>
+
+    <!-- Main Screen -->
+    <string name="settings_icon_desc">Einstellungen</string>
+    <string name="sensor_lux_title">SENSOR LUX</string>
+    <string name="flux_unit">lux</string>
+    <string name="screen_nits_title">BILDSCHIRM NITS</string>
+    <string name="nits_unit">nits</string>
+    <string name="permission_required_title">Berechtigung erforderlich</string>
+    <string name="permission_required_desc">EasyNits benötigt die Berechtigung, Systemeinstellungen zu ändern.</string>
+    <string name="grant_btn">Zulassen</string>
+    <string name="notifications_required_title">Benachrichtigungen erforderlich</string>
+    <string name="notifications_required_desc">Berechtigung erteilen, um den Hintergrundstatus anzuzeigen.</string>
+    <string name="brightness_offset_title">Helligkeits-Offset</string>
+    <string name="offset_label">Offset: %1$s</string>
+    <string name="current_brightness_percent">Aktuelle Helligkeit: %1$d%%</string>
+    <string name="decrease_desc">Verringern</string>
+    <string name="increase_desc">Erhöhen</string>
+    <string name="toggle_timer_desc">Timer einstellen</string>
+    <string name="add_time_frame_btn">Zeitfenster hinzufügen</string>
+    <string name="activate_service_title">Dienst aktivieren</string>
+    <string name="activate_service_desc">Helligkeitsanpassungen automatisieren</string>
+    <string name="run_in_background_title">Im Hintergrund ausführen</string>
+    <string name="run_in_background_desc">App im Hintergrund laufen lassen</string>
+    <string name="auto_start_title">Automatischer Start</string>
+    <string name="auto_start_desc">Läuft nach dem Geräte-Start</string>
+    <string name="got_it_btn">Verstanden</string>
+    <string name="auto_start_info_title">Auto-Start Info</string>
+    <string name="auto_start_info_text">Wenn die App nach dem Starten nicht automatisch läuft, müssen Sie EasyNits möglicherweise in den Systemeinstellungen Ihres Geräts von der Akku-Optimierung ausschließen. Dieser Vorgang variiert je nach Gerätehersteller.</string>
+    <string name="add_scheduled_offset_title">Geplanten Offset hinzufügen</string>
+    <string name="add_btn">Hinzufügen</string>
+    <string name="cancel_btn">Abbrechen</string>
+    <string name="start_time_label">Startzeit</string>
+    <string name="end_time_label">Endzeit</string>
+    <string name="ok_btn">OK</string>
+    <string name="delete_desc">Löschen</string>
+
+    <string name="every_day">Jeden Tag</string>
+    <string name="day_mon">MO</string>
+    <string name="day_tue">DI</string>
+    <string name="day_wed">MI</string>
+    <string name="day_thu">DO</string>
+    <string name="day_fri">FR</string>
+    <string name="day_sat">SA</string>
+    <string name="day_sun">SO</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="back_btn_desc">Zurück</string>
+    <string name="appearance_section">Erscheinungsbild</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="theming_section">Design</string>
+    <string name="dynamic_color_title">Dynamische Farben</string>
+    <string name="dynamic_color_desc">Farben vom Hintergrundbild verwenden (Android 12+)</string>
+    <string name="custom_primary_color_title">Benutzerdefinierte Primärfarbe</string>
+    <string name="custom_text_color_title">Benutzerdefinierte Textfarbe</string>
+    <string name="custom_background_color_title">Benutzerdefinierte Hintergrundfarbe</string>
+    <string name="app_icon_section">App-Symbol</string>
+    <string name="language_section">Sprache</string>
+    <string name="lang_system">Systemsprache</string>
+    <string name="lang_en">Englisch</string>
+    <string name="lang_de">Deutsch</string>
+    <string name="lang_in">Indonesisch</string>
+    <string name="lang_es">Spanisch</string>
+    <string name="lang_ar">Arabisch</string>
+    <string name="lang_bn">Bengali</string>
+    <string name="lang_zh">Chinesisch</string>
+    <string name="lang_fr">Französisch</string>
+    <string name="lang_hi">Hindi</string>
+    <string name="lang_it">Italienisch</string>
+    <string name="lang_ja">Japanisch</string>
+    <string name="lang_ko">Koreanisch</string>
+    <string name="lang_pt">Portugiesisch</string>
+    <string name="lang_ru">Russisch</string>
+    <string name="information_section">Informationen</string>
+    <string name="about_easynits_item">Über EasyNits</string>
+
+    <!-- About Screen -->
+    <string name="about_title">Über EasyNits</string>
+    <string name="description_title">App-Beschreibung</string>
+    <string name="description_content">EasyNits ist ein Werkzeug zur Helligkeitsverwaltung, das Funktionen wie \"Dynamische Nits-Steuerung\" mit schneller Umgebungslichterkennung für reibungslose Übergänge, \"Personalisierte Offsets\" zur manuellen Feinabstimmung der Helligkeitsbasis und \"Geplante Zeitfenster\" zur automatischen Anwendung spezifischer Helligkeits-Offsets zu verschiedenen Tageszeiten (z.B. einen dunkleren Bildschirm in der Nacht) umfasst.</string>
+    <string name="permissions_title">Berechtigungen</string>
+    <string name="permissions_content">• Einstellungen ändern: Erforderlich, um die Helligkeit des Systems anzupassen.\n• Benachrichtigungen: Wird verwendet, um den dauerhaften Dienststatus im Hintergrund anzuzeigen.\n• Auto-Start: Stellt sicher, dass die App sofort nach dem Starten des Geräts läuft.</string>
+    <string name="ai_usage_title">KI-Nutzung</string>
+    <string name="ai_usage_content">EasyApps ist ein Vibe-Coding-Projekt und wurde mithilfe von KI erstellt.</string>
+    <string name="credits_title">Mitwirkende &amp; Bibliotheken</string>
+    <string name="credits_content">Konzept &amp; App-Symbol: Marc Napitupulu\n\n[GitHub](https://github.com/marcdroid) | [Website](https://justamarc.wordpress.com/)\n\n• [Jetpack Compose](https://developer.android.com/compose)\n• [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)\n• [Material 3](https://m3.material.io)</string>
+    <string name="version_label">Version %1$s</string>
+    <string name="easter_egg_thank_you">Vielen Dank für die Nutzung von EasyNits!</string>
+
+    <!-- ViewModel & Service -->
+    <string name="color_conflict_toast">Diese Farbe kann nicht ausgewählt werden, da sie auf dem Hintergrund unsichtbar wäre.</string>
+    <string name="notification_channel_name">Helligkeitssteuerungs-Dienst</string>
+    <string name="notification_title">EasyNits läuft</string>
+    <string name="notification_text">Helligkeit wird angepasst</string>
+    <string name="widget_name">EasyNits Offset</string>
+    <string name="icon_changed_toast">Symbol geändert. Bitte App neu starten.</string>
+</resources>

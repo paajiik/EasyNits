@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="glance_primary">@android:color/system_accent1_200</color>
+    <color name="glance_background">@android:color/system_neutral1_900</color>
+    <color name="glance_on_surface">@android:color/system_neutral1_10</color>
+    <color name="glance_track">@android:color/system_accent1_700</color>
+    <color name="glance_on_primary">@android:color/system_accent1_800</color>
+    <color name="splash_bg">#000000</color>
+</resources>

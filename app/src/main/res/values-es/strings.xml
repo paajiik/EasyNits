@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">EasyNits</string>
+
+    <!-- Main Screen -->
+    <string name="settings_icon_desc">Ajustes</string>
+    <string name="sensor_lux_title">LUX DEL SENSOR</string>
+    <string name="flux_unit">lux</string>
+    <string name="screen_nits_title">NITS DE PANTALLA</string>
+    <string name="nits_unit">nits</string>
+    <string name="permission_required_title">Permiso requerido</string>
+    <string name="permission_required_desc">EasyNits necesita permiso para modificar los ajustes del sistema.</string>
+    <string name="grant_btn">Conceder</string>
+    <string name="notifications_required_title">Notificaciones requeridas</string>
+    <string name="notifications_required_desc">Conceder permiso para mostrar el estado en segundo plano.</string>
+    <string name="brightness_offset_title">Compensación de brillo</string>
+    <string name="offset_label">Compensación: %1$s</string>
+    <string name="current_brightness_percent">Brillo actual: %1$d%%</string>
+    <string name="decrease_desc">Disminuir</string>
+    <string name="increase_desc">Aumentar</string>
+    <string name="toggle_timer_desc">Alternar temporizador</string>
+    <string name="add_time_frame_btn">Añadir intervalo de tiempo</string>
+    <string name="activate_service_title">Activar servicio</string>
+    <string name="activate_service_desc">Automatizar ajustes de brillo</string>
+    <string name="run_in_background_title">Ejecutar en segundo plano</string>
+    <string name="run_in_background_desc">Mantener la aplicación ejecutándose en segundo plano</string>
+    <string name="auto_start_title">Inicio automático</string>
+    <string name="auto_start_desc">Iniciar tras el arranque del dispositivo</string>
+    <string name="got_it_btn">Entendido</string>
+    <string name="auto_start_info_title">Info de inicio automático</string>
+    <string name="auto_start_info_text">Si la aplicación no se inicia automáticamente tras el arranque, es posible que deba excluir EasyNits de la optimización de batería en los ajustes del sistema de su dispositivo. Este proceso varía según el fabricante.</string>
+    <string name="add_scheduled_offset_title">Añadir compensación programada</string>
+    <string name="add_btn">Añadir</string>
+    <string name="cancel_btn">Cancelar</string>
+    <string name="start_time_label">Hora de inicio</string>
+    <string name="end_time_label">Hora de fin</string>
+    <string name="ok_btn">Aceptar</string>
+    <string name="delete_desc">Eliminar</string>
+
+    <string name="every_day">Cada día</string>
+    <string name="day_mon">LUN</string>
+    <string name="day_tue">MAR</string>
+    <string name="day_wed">MIÉ</string>
+    <string name="day_thu">JUE</string>
+    <string name="day_fri">VIE</string>
+    <string name="day_sat">SÁB</string>
+    <string name="day_sun">DOM</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Ajustes</string>
+    <string name="back_btn_desc">Atrás</string>
+    <string name="appearance_section">Apariencia</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theming_section">Temas</string>
+    <string name="dynamic_color_title">Color dinámico</string>
+    <string name="dynamic_color_desc">Usar colores de su fondo de pantalla (Android 12+)</string>
+    <string name="custom_primary_color_title">Color primario personalizado</string>
+    <string name="custom_text_color_title">Color de texto personalizado</string>
+    <string name="custom_background_color_title">Color de fondo personalizado</string>
+    <string name="app_icon_section">Icono de la aplicación</string>
+    <string name="language_section">Idioma</string>
+    <string name="lang_system">Idioma del sistema</string>
+    <string name="lang_en">Inglés</string>
+    <string name="lang_de">Alemán</string>
+    <string name="lang_in">Indonesio</string>
+    <string name="lang_es">Español</string>
+    <string name="lang_ar">Árabe</string>
+    <string name="lang_bn">Bengalí</string>
+    <string name="lang_zh">Chino</string>
+    <string name="lang_fr">Francés</string>
+    <string name="lang_hi">Hindi</string>
+    <string name="lang_it">Italiano</string>
+    <string name="lang_ja">Japonés</string>
+    <string name="lang_ko">Coreano</string>
+    <string name="lang_pt">Portugués</string>
+    <string name="lang_ru">Ruso</string>
+    <string name="information_section">Información</string>
+    <string name="about_easynits_item">Acerca de EasyNits</string>
+
+    <!-- About Screen -->
+    <string name="about_title">Acerca de EasyNits</string>
+    <string name="description_title">Descripción de la aplicación</string>
+    <string name="description_content">EasyNits es una herramienta de gestión de brillo que incluye funciones como el \"Control dinámico de nits\" con detección rápida de luz ambiental para transiciones suaves, \"Compensaciones personalizadas\" para ajustar manualmente la base de brillo según su comodidad, e \"Intervalos programados\" para aplicar automáticamente compensaciones de brillo específicas según la hora del día (por ejemplo, una pantalla más tenue por la noche).</string>
+    <string name="permissions_title">Permisos</string>
+    <string name="permissions_content">• Escribir ajustes: Necesario para ajustar el nivel de brillo del sistema.\n• Notificaciones: Se usa para mostrar el estado del servicio persistente en segundo plano.\n• Inicio automático: Garantiza que la protección comience inmediatamente después del arranque.</string>
+    <string name="ai_usage_title">Uso de IA</string>
+    <string name="ai_usage_content">EasyApps es un proyecto de \"vibe-coding\" realizado con la ayuda de IA.</string>
+    <string name="credits_title">Créditos y bibliotecas</string>
+    <string name="credits_content">Concepto e icono: Marc Napitupulu\n\n[GitHub](https://github.com/marcdroid) | [Sitio web](https://justamarc.wordpress.com/)\n\n• [Jetpack Compose](https://developer.android.com/compose)\n• [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)\n• [Material 3](https://m3.material.io)</string>
+    <string name="version_label">Versión %1$s</string>
+    <string name="easter_egg_thank_you">¡Gracias por usar EasyNits!</string>
+
+    <!-- ViewModel & Service -->
+    <string name="color_conflict_toast">No se puede seleccionar este color ya que sería invisible con el fondo actual.</string>
+    <string name="notification_channel_name">Servicio de control de brillo</string>
+    <string name="notification_title">EasyNits se está ejecutando</string>
+    <string name="notification_text">Gestionando el brillo de la pantalla</string>
+    <string name="widget_name">Compensación EasyNits</string>
+    <string name="icon_changed_toast">Icono cambiado. Por favor, vuelve a abrir la aplicación.</string>
+</resources>

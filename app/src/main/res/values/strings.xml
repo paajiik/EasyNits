@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">EasyNits</string>
+
+    <!-- Main Screen -->
+    <string name="settings_icon_desc">Settings</string>
+    <string name="sensor_lux_title">SENSOR LUX</string>
+    <string name="flux_unit">flux</string>
+    <string name="screen_nits_title">SCREEN NITS</string>
+    <string name="nits_unit">nits</string>
+    <string name="permission_required_title">Permission Required</string>
+    <string name="permission_required_desc">EasyNits needs permission to modify system settings.</string>
+    <string name="grant_btn">Grant</string>
+    <string name="notifications_required_title">Notifications Required</string>
+    <string name="notifications_required_desc">Grant permission to show background status.</string>
+    <string name="brightness_offset_title">Brightness Offset</string>
+    <string name="offset_label">Offset: %1$s</string>
+    <string name="current_brightness_percent">Current brightness: %1$d%%</string>
+    <string name="decrease_desc">Decrease</string>
+    <string name="increase_desc">Increase</string>
+    <string name="toggle_timer_desc">Toggle Timer</string>
+    <string name="add_time_frame_btn">Add Time Frame</string>
+    <string name="activate_service_title">Activate Service</string>
+    <string name="activate_service_desc">Automate brightness adjustments</string>
+    <string name="run_in_background_title">Run in Background</string>
+    <string name="run_in_background_desc">Keep the app running in the background</string>
+    <string name="auto_start_title">Auto Start</string>
+    <string name="auto_start_desc">Start after device boot</string>
+    <string name="got_it_btn">Got it</string>
+    <string name="auto_start_info_title">Auto Start Info</string>
+    <string name="auto_start_info_text">If the app doesn\'t start automatically after boot, you may need to exclude EasyNits from battery optimization in your device\'s system settings. This process varies by device manufacturer.</string>
+    <string name="add_scheduled_offset_title">Add Scheduled Offset</string>
+    <string name="add_btn">Add</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="start_time_label">Start Time</string>
+    <string name="end_time_label">End Time</string>
+    <string name="ok_btn">OK</string>
+    <string name="delete_desc">Delete</string>
+    <string name="every_day">Every Day</string>
+    <string name="day_mon">MON</string>
+    <string name="day_tue">TUE</string>
+    <string name="day_wed">WED</string>
+    <string name="day_thu">THU</string>
+    <string name="day_fri">FRI</string>
+    <string name="day_sat">SAT</string>
+    <string name="day_sun">SUN</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="back_btn_desc">Back</string>
+    <string name="appearance_section">Appearance</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theming_section">Theming</string>
+    <string name="dynamic_color_title">Dynamic Color</string>
+    <string name="dynamic_color_desc">Use colors from your wallpaper (Android 12+)</string>
+    <string name="custom_primary_color_title">Custom Primary Color</string>
+    <string name="custom_text_color_title">Custom Text Color</string>
+    <string name="custom_background_color_title">Custom Background Color</string>
+    <string name="app_icon_section">App Icon</string>
+    <string name="language_section">Language</string>
+    <string name="lang_system">System language</string>
+    <string name="lang_en">English</string>
+    <string name="lang_de">German</string>
+    <string name="lang_in">Indonesian</string>
+    <string name="lang_es">Spanish</string>
+    <string name="lang_ar">Arabic</string>
+    <string name="lang_bn">Bangla</string>
+    <string name="lang_zh">Chinese</string>
+    <string name="lang_fr">French</string>
+    <string name="lang_hi">Hindi</string>
+    <string name="lang_it">Italian</string>
+    <string name="lang_ja">Japanese</string>
+    <string name="lang_ko">Korean</string>
+    <string name="lang_pt">Portuguese</string>
+    <string name="lang_ru">Russian</string>
+    <string name="information_section">Information</string>
+    <string name="about_easynits_item">About EasyNits</string>
+
+    <!-- About Screen -->
+    <string name="about_title">About EasyNits</string>
+    <string name="description_title">App Description</string>
+    <string name="description_content">EasyNits is a brightness management tool, which includes features like \"Dynamic Nits Control\" with fast ambient light detection for responsive, smooth transitions, \"Personalized Offsets\" to manually fine-tune the brightness baseline to suit your comfort level, and \"Scheduled Time Frames\" to automatically apply specific brightness offsets for different times of the day (e.g., a dimmer display at night).</string>
+    <string name="permissions_title">Permissions</string>
+    <string name="permissions_content">• Write Settings: Required to adjust the system screen brightness level.\n• Post Notifications: Used to show the persistent service status when running in the background.\n• Auto Start: Ensures protection starts immediately after your device boots.</string>
+    <string name="ai_usage_title">AI Usage</string>
+    <string name="ai_usage_content">EasyApps is a vibe-coding project and is made with the help of AI.</string>
+    <string name="credits_title">Credits &amp; Libraries</string>
+    <string name="credits_content">Concept &amp; App icon: Marc Napitupulu\n\n[GitHub](https://github.com/marcdroid) | [Website](https://justamarc.wordpress.com/)\n\n• [Jetpack Compose](https://developer.android.com/compose)\n• [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)\n• [Material 3](https://m3.material.io)</string>
+    <string name="version_label">Version %1$s</string>
+    <string name="easter_egg_thank_you">Thank you for using EasyNits!</string>
+
+    <!-- ViewModel & Service -->
+    <string name="color_conflict_toast">Cannot select this color as it would be invisible against the background.</string>
+    <string name="notification_channel_name">Brightness Control Service</string>
+    <string name="notification_title">EasyNits is running</string>
+    <string name="notification_text">Managing screen brightness</string>
+    <string name="widget_name">EasyNits Offset</string>
+    <string name="icon_changed_toast">Icon changed. Please reopen the app.</string>
+</resources>
