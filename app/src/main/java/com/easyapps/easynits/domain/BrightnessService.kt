@@ -162,8 +162,14 @@ class BrightnessService : Service() {
         serviceScope.launch {
             settingsRepository.settingsFlow.collect { settings ->
                 currentSettings = settings
-                if (settings.isServiceActive && settings.runInBackground) {
-                    updateForegroundNotification()
+                if (settings.isServiceActive) {
+                    if (settings.runInBackground) {
+                        updateForegroundNotification()
+                    } else {
+                        stopForeground(STOP_FOREGROUND_REMOVE)
+                    }
+                    // Trigger immediate recalculation on settings change (e.g., offset slider move)
+                    calculateTargetBrightness(currentLux, settings.brightnessOffset)
                 } else {
                     stopForeground(STOP_FOREGROUND_REMOVE)
                 }
