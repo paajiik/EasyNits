@@ -23,6 +23,7 @@ import com.easyapps.easynits.R
 import com.easyapps.easynits.data.SettingsRepository
 import com.easyapps.easynits.data.UserSettings
 import kotlinx.coroutines.flow.first
+import java.util.Calendar
 import kotlin.math.roundToInt
 
 class BrightnessWidget : GlanceAppWidget() {
@@ -48,7 +49,22 @@ class BrightnessWidget : GlanceAppWidget() {
         settings: UserSettings, 
         size: DpSize
     ) {
-        val uiOffset = (settings.brightnessOffset * 100f / 255f).roundToInt()
+        // Determine the active offset
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+        val currentDay = calendar.get(Calendar.DAY_OF_WEEK)
+        val currentTimeInMinutes = currentHour * 60 + currentMinute
+        
+        val activeSchedule = settings.scheduledOffsets.find { schedule ->
+            if (currentDay !in schedule.days) return@find false
+            val startMinutes = schedule.startHour * 60 + schedule.startMinute
+            val endMinutes = schedule.endHour * 60 + schedule.endMinute
+            if (startMinutes <= endMinutes) currentTimeInMinutes in startMinutes..endMinutes
+            else currentTimeInMinutes >= startMinutes || currentTimeInMinutes <= endMinutes
+        }
+
+        val uiOffset = activeSchedule?.offset ?: (settings.brightnessOffset * 100f / 255f).roundToInt()
         val offsetText = if (uiOffset == 0) "0" else "%+d".format(uiOffset)
 
         // Manual Theme resolution to ensure sync with app settings

@@ -115,8 +115,27 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             combine(currentLux, settings) { lux, settingsValue ->
                 val base = nitsCalculator.calculateBaseBrightness(lux)
-                val offset = settingsValue?.brightnessOffset ?: 0
-                val offsetFactor = offset / 255f
+                
+                // Determine the active offset factor
+                val calendar = Calendar.getInstance()
+                val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+                val currentMinute = calendar.get(Calendar.MINUTE)
+                val currentDay = calendar.get(Calendar.DAY_OF_WEEK)
+                val currentTimeInMinutes = currentHour * 60 + currentMinute
+                
+                val activeSchedule = settingsValue?.scheduledOffsets?.find { schedule ->
+                    if (currentDay !in schedule.days) return@find false
+                    val startMinutes = schedule.startHour * 60 + schedule.startMinute
+                    val endMinutes = schedule.endHour * 60 + schedule.endMinute
+                    if (startMinutes <= endMinutes) currentTimeInMinutes in startMinutes..endMinutes
+                    else currentTimeInMinutes >= startMinutes || currentTimeInMinutes <= endMinutes
+                }
+
+                val offsetFactor = if (activeSchedule != null) {
+                    activeSchedule.offset / 100f
+                } else {
+                    (settingsValue?.brightnessOffset ?: 0) / 255f
+                }
                 
                 // Proportional Layering Algorithm
                 val targetBrightness = if (offsetFactor >= 0) {
