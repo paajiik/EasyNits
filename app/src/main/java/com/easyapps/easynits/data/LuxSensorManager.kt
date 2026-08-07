@@ -65,27 +65,32 @@ class LuxSensorManager(context: Context) {
         fun startSimulation() {
             if (simulationJob?.isActive == true) return
             simulationJob = launch {
-                var currentSimLux = 100f
+                var currentSimLux = 0f
                 addSampleAndSend(currentSimLux)
                 while (true) {
-                    delay(500) // Slower simulation to save battery
+                    delay(1000) // Slower simulation to save battery
                     // Random walk for lux
-                    currentSimLux = (currentSimLux + Random.nextFloat() * 10 - 5f).coerceIn(1f, 1000f)
+                    currentSimLux = (currentSimLux + Random.nextFloat() * 10 - 5f).coerceIn(0f, 1000f)
                     addSampleAndSend(currentSimLux)
                 }
             }
         }
 
-        val isEmulator = android.os.Build.PRODUCT.contains("sdk") || 
-                        android.os.Build.PRODUCT.contains("vbox") || 
-                        android.os.Build.PRODUCT.contains("emulator")
+        val isEmulator = android.os.Build.FINGERPRINT.contains("generic") ||
+                        android.os.Build.FINGERPRINT.contains("unknown") ||
+                        android.os.Build.MODEL.contains("google_sdk") ||
+                        android.os.Build.MODEL.contains("Emulator") ||
+                        android.os.Build.MODEL.contains("Android SDK built for x86") ||
+                        android.os.Build.MANUFACTURER.contains("Genymotion") ||
+                        (android.os.Build.BRAND.startsWith("generic") && android.os.Build.DEVICE.startsWith("generic")) ||
+                        "google_sdk" == android.os.Build.PRODUCT
 
         if (lightSensor != null && !isEmulator) {
             // Use SENSOR_DELAY_UI (approx 60Hz) instead of FASTEST (200Hz+) to save battery
             val registered = sensorManager.registerListener(listener, lightSensor, SensorManager.SENSOR_DELAY_UI)
             if (registered) {
                 launch {
-                    delay(3000)
+                    delay(10000) // Wait longer during boot for hardware to warm up
                     if (!hasReceivedEvent) {
                         startSimulation()
                     }

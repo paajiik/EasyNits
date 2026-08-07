@@ -37,7 +37,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = SettingsRepository(application)
+    private val repository = SettingsRepository.getInstance(application)
     private val luxSensorManager = LuxSensorManager(application)
     
     private val nitsCalculator: NitsCalculator by lazy {
@@ -87,6 +87,14 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     val currentBrightnessPercent = _smoothBrightnessPercent.asStateFlow()
 
     init {
+        // Ensure service is running if it should be
+        viewModelScope.launch {
+            val s = repository.settingsFlow.first()
+            if (s.isServiceActive) {
+                startService()
+            }
+        }
+
         // Smoothing loop
         viewModelScope.launch {
             while (true) {

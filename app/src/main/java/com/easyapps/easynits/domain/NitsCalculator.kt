@@ -43,10 +43,10 @@ class NitsCalculator(
         val logLux = log10(effectiveLux.toDouble()).toFloat()
         
         // Logarithmic mapping:
-        // We want 1 lux (log=0) -> ~15 (dim but visible) 
+        // We want 1 lux (log=0) -> ~5 (dim but visible in darkness) 
         // We want 10000 lux (log=4) -> 255 (full bright)
         
-        val minBase = 15f
+        val minBase = 5f
         val maxLog = 4f // 10^4 = 10000 lux
         
         val normalizedLog = (logLux / maxLog).coerceIn(0f, 1f)

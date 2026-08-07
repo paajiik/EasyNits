@@ -30,7 +30,7 @@ class BrightnessWidget : GlanceAppWidget() {
     override val sizeMode: SizeMode = SizeMode.Exact
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val repository = SettingsRepository(context)
+        val repository = SettingsRepository.getInstance(context)
         
         provideContent {
             val settings by repository.settingsFlow.collectAsState(initial = null)
@@ -205,7 +205,7 @@ class UpdateOffsetAction : ActionCallback {
 
     override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         val change = parameters[CHANGE_KEY] ?: 0
-        val repository = SettingsRepository(context)
+        val repository = SettingsRepository.getInstance(context)
         val currentSettings = repository.settingsFlow.first()
         val currentUiOffset = (currentSettings.brightnessOffset * 100f / 255f).roundToInt()
         val newUiOffset = (currentUiOffset + change).coerceIn(-100, 100)

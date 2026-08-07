@@ -80,6 +80,7 @@ class BrightnessService : Service() {
     private var targetBrightness = -1f
     private var currentSettings: UserSettings? = null
     private var currentLux = 0f
+    private var isStartedFromBoot = false
 
     private var lastAppliedSystemValue = -1
     private var lastAppUpdateTime = 0L
@@ -146,12 +147,16 @@ class BrightnessService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "onCreate")
-        settingsRepository = SettingsRepository(this)
+        Log.d("EasyNits_Debug", "BrightnessService: onCreate - Starting service")
+        settingsRepository = SettingsRepository.getInstance(this)
         luxSensorManager = LuxSensorManager(this)
 
         // Show initial notification immediately to satisfy foreground service requirements
         showInitialNotification()
+
+        if (!Settings.System.canWrite(this)) {
+            Log.e("EasyNits_Debug", "BrightnessService: CRITICAL - WRITE_SETTINGS permission not granted!")
+        }
         
         contentResolver.registerContentObserver(
             Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS),
@@ -161,17 +166,30 @@ class BrightnessService : Service() {
 
         serviceScope.launch {
             settingsRepository.settingsFlow.collect { settings ->
+                Log.d("EasyNits_Debug", "BrightnessService: Settings update received - active=${settings.isServiceActive}, runBg=${settings.runInBackground}, boot=$isStartedFromBoot")
+                Log.d("EasyNits_Debug", "BrightnessService: Detailed Settings - Offset=${settings.brightnessOffset}, AutoStart=${settings.autoStart}, Lang=${settings.language}")
+                
                 currentSettings = settings
+                
                 if (settings.isServiceActive) {
-                    if (settings.runInBackground) {
+                    if (settings.runInBackground || isStartedFromBoot) {
                         updateForegroundNotification()
                     } else {
+                        Log.d("EasyNits_Debug", "BrightnessService: Stopping foreground (runInBackground=false and not in boot grace period)")
                         stopForeground(STOP_FOREGROUND_REMOVE)
                     }
                     // Trigger immediate recalculation on settings change (e.g., offset slider move)
                     calculateTargetBrightness(currentLux, settings.brightnessOffset)
                 } else {
-                    stopForeground(STOP_FOREGROUND_REMOVE)
+                    // If we just started from boot, settings might be default/empty if migration was deferred.
+                    // We must maintain foreground during the 30s grace period to satisfy OS requirements.
+                    if (isStartedFromBoot) {
+                        Log.d("EasyNits_Debug", "BrightnessService: isServiceActive is false, but maintaining foreground during boot grace period.")
+                        updateForegroundNotification()
+                    } else {
+                        Log.d("EasyNits_Debug", "BrightnessService: Stopping foreground (isServiceActive=false)")
+                        stopForeground(STOP_FOREGROUND_REMOVE)
+                    }
                 }
             }
         }
@@ -180,14 +198,47 @@ class BrightnessService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val fromBoot = intent?.getBooleanExtra("FROM_BOOT", false) == true
+        Log.d("EasyNits_Debug", "BrightnessService: onStartCommand - fromBoot=$fromBoot")
+        
+        if (fromBoot) {
+            isStartedFromBoot = true
+            Log.d("EasyNits_Debug", "BrightnessService: onStartCommand - Service started from boot. Forcing foreground for 30s.")
+            
+            // Re-trigger notification update now that isStartedFromBoot is true
+            currentSettings?.let { settings ->
+                if (settings.isServiceActive) {
+                    updateForegroundNotification()
+                }
+            }
+
+            // Maintain foreground for at least 30s to prevent OS from killing it during busy boot
+            serviceScope.launch {
+                delay(30000)
+                Log.d("EasyNits_Debug", "BrightnessService: Boot grace period ended.")
+                isStartedFromBoot = false
+                // Re-trigger notification update based on actual settings
+                currentSettings?.let { settings ->
+                    if (settings.isServiceActive) {
+                        if (settings.runInBackground) {
+                            updateForegroundNotification()
+                        } else {
+                            Log.d("EasyNits_Debug", "BrightnessService: runInBackground is false, removing foreground.")
+                            stopForeground(STOP_FOREGROUND_REMOVE)
+                        }
+                    }
+                }
+            }
+        }
         return START_STICKY
     }
 
     private fun startBrightnessControl() {
         serviceScope.launch {
             luxSensorManager.getLuxFlow().collect { lux ->
-                // Small threshold to avoid micro-adjustments
-                if (abs(currentLux - lux) < 0.5f && currentAppliedBrightness >= 0) return@collect
+                // Increased sensitivity in dark environments: 0.1 lux threshold for low light
+                val threshold = if (lux < 10f) 0.1f else 0.5f
+                if (abs(currentLux - lux) < threshold && currentAppliedBrightness >= 0) return@collect
                 
                 currentLux = lux
                 val settings = currentSettings ?: return@collect
@@ -202,19 +253,38 @@ class BrightnessService : Service() {
             while (isActive) {
                 val target = targetBrightness
                 if (target >= 0 && abs(currentAppliedBrightness - target) > 0.05f) {
-                    suspendCancellableCoroutine<Unit> { continuation ->
-                        Choreographer.getInstance().postFrameCallback {
-                            // Responsive glide: move 12% toward target per frame
-                            // Slightly slower than 15% for even smoother battery-friendly transitions
-                            val step = (target - currentAppliedBrightness) * 0.12f
-                            currentAppliedBrightness += step
+                    try {
+                        suspendCancellableCoroutine<Unit> { continuation ->
+                            val choreographer = try { Choreographer.getInstance() } catch (e: Exception) { null }
                             
-                            val rounded = currentAppliedBrightness.roundToInt().coerceIn(0, 255)
-                            if (rounded != lastAppliedSystemValue) {
-                                applyBrightnessToSystem(rounded)
+                            if (choreographer != null) {
+                                choreographer.postFrameCallback {
+                                    val step = (target - currentAppliedBrightness) * 0.12f
+                                    currentAppliedBrightness += step
+                                    
+                                    val rounded = currentAppliedBrightness.roundToInt().coerceIn(0, 255)
+                                    if (rounded != lastAppliedSystemValue) {
+                                        applyBrightnessToSystem(rounded)
+                                    }
+                                    continuation.resume(Unit)
+                                }
+                            } else {
+                                // Fallback for environments where Choreographer might fail initially (e.g. boot)
+                                serviceScope.launch {
+                                    delay(16) // ~60fps
+                                    val step = (target - currentAppliedBrightness) * 0.12f
+                                    currentAppliedBrightness += step
+                                    val rounded = currentAppliedBrightness.roundToInt().coerceIn(0, 255)
+                                    if (rounded != lastAppliedSystemValue) {
+                                        applyBrightnessToSystem(rounded)
+                                    }
+                                    continuation.resume(Unit)
+                                }
                             }
-                            continuation.resume(Unit)
                         }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error in interpolation loop: ${e.message}")
+                        delay(100) // Cooling off on error
                     }
                 } else {
                     // Snap to target if very close and stop looping
@@ -275,12 +345,16 @@ class BrightnessService : Service() {
     }
 
     private fun applyBrightnessToSystem(brightness: Int) {
-        if (!Settings.System.canWrite(this)) return
+        if (!Settings.System.canWrite(this)) {
+            Log.e(TAG, "Cannot apply brightness: permission missing")
+            return
+        }
         
         lastAppliedSystemValue = brightness
         lastAppUpdateTime = System.currentTimeMillis()
         
         try {
+            Log.v(TAG, "Applying brightness: $brightness")
             // Set mode to manual only if it's not already manual to save battery/cycles
             val currentMode = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE)
             if (currentMode != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL) {
@@ -302,9 +376,9 @@ class BrightnessService : Service() {
     }
 
     private fun updateForegroundNotification() {
-        val settings = currentSettings ?: return
+        val settings = currentSettings
         val channelId = "brightness_service_channel"
-        val localizedContext = getLocalizedContext()
+        val localizedContext = if (settings != null) getLocalizedContext() else this
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -326,9 +400,9 @@ class BrightnessService : Service() {
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setContentTitle(localizedContext.getString(R.string.notification_title))
-            .setContentText(localizedContext.getString(R.string.notification_text))
+            .setContentText(if (settings?.isServiceActive == true) localizedContext.getString(R.string.notification_text) else "Initializing...")
             .setSmallIcon(R.mipmap.ic_launcher_monochrome)
-            .setColor(settings.customPrimaryColor?.toInt() ?: androidx.core.content.ContextCompat.getColor(this, R.color.glance_primary))
+            .setColor(settings?.customPrimaryColor?.toInt() ?: androidx.core.content.ContextCompat.getColor(this, R.color.glance_primary))
             .setColorized(false)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(true)
@@ -383,7 +457,7 @@ class BrightnessService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy")
+        Log.d("EasyNits_Debug", "BrightnessService: onDestroy")
         contentResolver.unregisterContentObserver(brightnessObserver)
         serviceJob.cancel()
     }
