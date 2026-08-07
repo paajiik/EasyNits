@@ -27,7 +27,10 @@
     <string name="auto_start_info_title">ऑटो स्टार्ट जानकारी</string>
     <string name="auto_start_info_text">यदि ऐप बूट के बाद स्वतः शुरू नहीं होता है, तो आपको अपनी बैटरी सेटिंग्स में सुधार करना पड़ सकता है।</string>
     <string name="add_scheduled_offset_title">शेड्यूल्ड ऑफसेट जोड़ें</string>
+    <string name="edit_scheduled_offset_title">अनुसूचित ऑफसेट संपादित करें</string>
     <string name="add_btn">जोड़ें</string>
+    <string name="save_btn">सहेजें</string>
+    <string name="delete_btn">हटाएं</string>
     <string name="cancel_btn">रद्द करें</string>
     <string name="start_time_label">आरंभ समय</string>
     <string name="end_time_label">समाप्ति समय</string>

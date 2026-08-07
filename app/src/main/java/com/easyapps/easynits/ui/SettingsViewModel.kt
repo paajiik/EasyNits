@@ -317,6 +317,25 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun updateScheduledOffset(id: String, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, offset: Int, days: List<Int>) {
+        viewModelScope.launch {
+            val current = settings.value?.scheduledOffsets ?: emptyList()
+            val newList = current.map {
+                if (it.id == id) {
+                    it.copy(
+                        startHour = startHour,
+                        startMinute = startMinute,
+                        endHour = endHour,
+                        endMinute = endMinute,
+                        offset = offset,
+                        days = days
+                    )
+                } else it
+            }
+            repository.updateScheduledOffsets(newList)
+        }
+    }
+
     private fun startService() {
         viewModelScope.launch {
             val s = repository.settingsFlow.first()

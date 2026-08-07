@@ -27,7 +27,10 @@
     <string name="auto_start_info_title">Info avvio automatico</string>
     <string name="auto_start_info_text">Se l\'app non si avvia automaticamente, potresti dover escludere EasyNits dall\'ottimizzazione della batteria.</string>
     <string name="add_scheduled_offset_title">Aggiungi offset pianificato</string>
+    <string name="edit_scheduled_offset_title">Modifica offset programmato</string>
     <string name="add_btn">Aggiungi</string>
+    <string name="save_btn">Salva</string>
+    <string name="delete_btn">Elimina</string>
     <string name="cancel_btn">Annulla</string>
     <string name="start_time_label">Ora inizio</string>
     <string name="end_time_label">Ora fine</string>

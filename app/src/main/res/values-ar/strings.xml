@@ -29,7 +29,10 @@
     <string name="auto_start_info_title">معلومات التشغيل التلقائي</string>
     <string name="auto_start_info_text">إذا لم يبدأ التطبيق تلقائيًا بعد التشغيل، فقد تحتاج إلى استبعاد EasyNits من تحسين البطارية في إعدادات نظام جهازك. تختلف هذه العملية حسب الشركة المصنعة للجهاز.</string>
     <string name="add_scheduled_offset_title">إضافة إزاحة مجدولة</string>
+    <string name="edit_scheduled_offset_title">تعديل الإزاحة المجدولة</string>
     <string name="add_btn">إضافة</string>
+    <string name="save_btn">حفظ</string>
+    <string name="delete_btn">حذف</string>
     <string name="cancel_btn">إلغاء</string>
     <string name="start_time_label">وقت البدء</string>
     <string name="end_time_label">وقت الانتهاء</string>

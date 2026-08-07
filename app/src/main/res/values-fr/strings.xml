@@ -27,7 +27,10 @@
     <string name="auto_start_info_title">Info démarrage automatique</string>
     <string name="auto_start_info_text">Si l\'application ne démarre pas automatiquement, vous devrez peut-être exclure EasyNits de l\'optimisation de la batterie dans les paramètres système.</string>
     <string name="add_scheduled_offset_title">Ajouter un décalage programmé</string>
+    <string name="edit_scheduled_offset_title">Modifier le décalage programmé</string>
     <string name="add_btn">Ajouter</string>
+    <string name="save_btn">Enregistrer</string>
+    <string name="delete_btn">Supprimer</string>
     <string name="cancel_btn">Annuler</string>
     <string name="start_time_label">Heure de début</string>
     <string name="end_time_label">Heure de fin</string>

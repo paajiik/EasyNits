@@ -51,7 +51,9 @@ fun MainScreen(
     val brightnessPercent by viewModel.currentBrightnessPercent.collectAsState()
     val settings by viewModel.settings.collectAsState()
     val context = LocalContext.current
-    val hasPermission = viewModel.hasWriteSettingsPermission()
+    var hasPermission by remember { 
+        mutableStateOf(viewModel.hasWriteSettingsPermission()) 
+    }
     
     var hasNotificationPermission by remember { 
         mutableStateOf(viewModel.hasNotificationPermission()) 
@@ -61,6 +63,7 @@ fun MainScreen(
 
     // Update permission state when app is resumed
     androidx.lifecycle.compose.LifecycleResumeEffect(Unit) {
+        hasPermission = viewModel.hasWriteSettingsPermission()
         hasNotificationPermission = viewModel.hasNotificationPermission()
         onPauseOrDispose { }
     }
@@ -268,6 +271,7 @@ fun MainScreen(
 
                         if (isTimerExpanded) {
                             var showAddDialog by remember { mutableStateOf(false) }
+                            var editingSchedule by remember { mutableStateOf<ScheduledOffset?>(null) }
 
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
@@ -276,7 +280,7 @@ fun MainScreen(
                                 s.scheduledOffsets.forEach { schedule ->
                                     ScheduledOffsetItem(
                                         schedule = schedule,
-                                        onDelete = { viewModel.removeScheduledOffset(schedule.id) }
+                                        onEdit = { editingSchedule = schedule }
                                     )
                                 }
 
@@ -296,6 +300,21 @@ fun MainScreen(
                                         onConfirm = { startH, startM, endH, endM, offset, days ->
                                             viewModel.addScheduledOffset(startH, startM, endH, endM, offset, days)
                                             showAddDialog = false
+                                        }
+                                    )
+                                }
+
+                                if (editingSchedule != null) {
+                                    TimeOffsetDialog(
+                                        existingSchedule = editingSchedule,
+                                        onDismiss = { editingSchedule = null },
+                                        onConfirm = { startH, startM, endH, endM, offset, days ->
+                                            viewModel.updateScheduledOffset(editingSchedule!!.id, startH, startM, endH, endM, offset, days)
+                                            editingSchedule = null
+                                        },
+                                        onDelete = {
+                                            viewModel.removeScheduledOffset(editingSchedule!!.id)
+                                            editingSchedule = null
                                         }
                                     )
                                 }
@@ -509,13 +528,23 @@ fun AlertCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeOffsetDialog(
-    initialOffset: Int,
+    initialOffset: Int = 0,
+    existingSchedule: ScheduledOffset? = null,
     onDismiss: () -> Unit,
-    onConfirm: (Int, Int, Int, Int, Int, List<Int>) -> Unit
+    onConfirm: (Int, Int, Int, Int, Int, List<Int>) -> Unit,
+    onDelete: (() -> Unit)? = null
 ) {
-    val startTimeState = rememberTimePickerState(initialHour = 8, initialMinute = 0, is24Hour = true)
-    val endTimeState = rememberTimePickerState(initialHour = 20, initialMinute = 0, is24Hour = true)
-    var offset by remember { mutableIntStateOf(initialOffset) }
+    val startTimeState = rememberTimePickerState(
+        initialHour = existingSchedule?.startHour ?: 8, 
+        initialMinute = existingSchedule?.startMinute ?: 0, 
+        is24Hour = true
+    )
+    val endTimeState = rememberTimePickerState(
+        initialHour = existingSchedule?.endHour ?: 20, 
+        initialMinute = existingSchedule?.endMinute ?: 0, 
+        is24Hour = true
+    )
+    var offset by remember { mutableIntStateOf(existingSchedule?.offset ?: initialOffset) }
     var pickingStartTime by remember { mutableStateOf(true) }
     var showPicker by remember { mutableStateOf(false) }
 
@@ -523,7 +552,9 @@ fun TimeOffsetDialog(
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     // 1=Sunday, 2=Monday, ..., 7=Saturday (Matching Calendar.DAY_OF_WEEK)
-    var selectedDays by remember { mutableStateOf(setOf(1, 2, 3, 4, 5, 6, 7)) }
+    var selectedDays by remember { 
+        mutableStateOf(existingSchedule?.days?.toSet() ?: setOf(1, 2, 3, 4, 5, 6, 7)) 
+    }
     val isEveryDaySelected = selectedDays.size == 7
 
     AlertDialog(
@@ -537,15 +568,22 @@ fun TimeOffsetDialog(
                     selectedDays.toList().sorted()
                 ) 
             }) {
-                Text(stringResource(R.string.add_btn))
+                Text(stringResource(if (existingSchedule != null) R.string.save_btn else R.string.add_btn))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel_btn))
+            Row {
+                if (onDelete != null) {
+                    TextButton(onClick = onDelete) {
+                        Text(stringResource(R.string.delete_btn), color = MaterialTheme.colorScheme.error)
+                    }
+                }
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(R.string.cancel_btn))
+                }
             }
         },
-        title = { Text(stringResource(R.string.add_scheduled_offset_title)) },
+        title = { Text(stringResource(if (existingSchedule != null) R.string.edit_scheduled_offset_title else R.string.add_scheduled_offset_title)) },
         text = {
             Column(
                 modifier = Modifier
@@ -762,7 +800,7 @@ fun TimePickerDialog(
 @Composable
 fun ScheduledOffsetItem(
     schedule: ScheduledOffset,
-    onDelete: () -> Unit
+    onEdit: () -> Unit
 ) {
     Surface(
         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f),
@@ -797,12 +835,12 @@ fun ScheduledOffsetItem(
                     color = MaterialTheme.colorScheme.primary
                 )
 
-                IconButton(onClick = onDelete, modifier = Modifier.size(MaterialTheme.dimensions.xxLarge)) {
+                IconButton(onClick = onEdit, modifier = Modifier.size(MaterialTheme.dimensions.xxLarge)) {
                     Icon(
-                        Icons.Rounded.Delete, 
-                        contentDescription = stringResource(R.string.delete_desc), 
+                        Icons.Rounded.Edit, 
+                        contentDescription = stringResource(R.string.settings_icon_desc), 
                         modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.error
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }

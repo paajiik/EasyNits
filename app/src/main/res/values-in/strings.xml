@@ -29,7 +29,10 @@
     <string name="auto_start_info_title">Info Mulai Otomatis</string>
     <string name="auto_start_info_text">Jika aplikasi tidak mulai otomatis setelah booting, Anda mungkin perlu mengecualikan EasyNits dari optimasi baterai di pengaturan sistem perangkat Anda. Proses ini bervariasi tergantung produsen perangkat.</string>
     <string name="add_scheduled_offset_title">Tambah Offset Terjadwal</string>
+    <string name="edit_scheduled_offset_title">Ubah Offset Terjadwal</string>
     <string name="add_btn">Tambah</string>
+    <string name="save_btn">Simpan</string>
+    <string name="delete_btn">Hapus</string>
     <string name="cancel_btn">Batal</string>
     <string name="start_time_label">Waktu Mulai</string>
     <string name="end_time_label">Waktu Selesai</string>

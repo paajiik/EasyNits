@@ -27,7 +27,10 @@
     <string name="auto_start_info_title">Info início automático</string>
     <string name="auto_start_info_text">Se a aplicação não iniciar automaticamente, pode ser necessário excluir o EasyNits da otimização de bateria.</string>
     <string name="add_scheduled_offset_title">Adicionar compensação agendada</string>
+    <string name="edit_scheduled_offset_title">Editar compensação agendada</string>
     <string name="add_btn">Adicionar</string>
+    <string name="save_btn">Salvar</string>
+    <string name="delete_btn">Excluir</string>
     <string name="cancel_btn">Cancelar</string>
     <string name="start_time_label">Hora de início</string>
     <string name="end_time_label">Hora de fim</string>

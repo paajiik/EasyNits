@@ -29,7 +29,10 @@
     <string name="auto_start_info_title">Auto-Start Info</string>
     <string name="auto_start_info_text">Wenn die App nach dem Starten nicht automatisch läuft, müssen Sie EasyNits möglicherweise in den Systemeinstellungen Ihres Geräts von der Akku-Optimierung ausschließen. Dieser Vorgang variiert je nach Gerätehersteller.</string>
     <string name="add_scheduled_offset_title">Geplanten Offset hinzufügen</string>
+    <string name="edit_scheduled_offset_title">Geplanten Offset bearbeiten</string>
     <string name="add_btn">Hinzufügen</string>
+    <string name="save_btn">Speichern</string>
+    <string name="delete_btn">Löschen</string>
     <string name="cancel_btn">Abbrechen</string>
     <string name="start_time_label">Startzeit</string>
     <string name="end_time_label">Endzeit</string>

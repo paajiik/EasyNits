@@ -29,7 +29,10 @@
     <string name="auto_start_info_title">Auto Start Info</string>
     <string name="auto_start_info_text">If the app doesn\'t start automatically after boot, you may need to exclude EasyNits from battery optimization in your device\'s system settings. This process varies by device manufacturer.</string>
     <string name="add_scheduled_offset_title">Add Scheduled Offset</string>
+    <string name="edit_scheduled_offset_title">Edit Scheduled Offset</string>
     <string name="add_btn">Add</string>
+    <string name="save_btn">Save</string>
+    <string name="delete_btn">Delete</string>
     <string name="cancel_btn">Cancel</string>
     <string name="start_time_label">Start Time</string>
     <string name="end_time_label">End Time</string>
