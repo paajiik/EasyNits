@@ -40,8 +40,8 @@ class BrightnessService : Service() {
     companion object {
         private const val TAG = "BrightnessService"
         private const val NOTIFICATION_ID = 1
-        private const val SYNC_COOLDOWN_MS = 2500L
-        private const val JITTER_THRESHOLD = 4 // Ignore small system jumps
+        private const val SYNC_COOLDOWN_MS = 4000L // Increased to 4s to prevent Honor sync fighting
+        private const val JITTER_THRESHOLD = 12 // Increased to 12 (approx 5%) to be more conservative
     }
 
     private val serviceJob = Job()
@@ -82,7 +82,7 @@ class BrightnessService : Service() {
     private var currentLux = 0f
     private var isStartedFromBoot = false
 
-    private var lastAppliedSystemValue = -1
+    private var lastAppliedSystemValue = -1f
     private var lastAppUpdateTime = 0L
 
     private fun getLocalizedContext(): Context {
@@ -98,20 +98,34 @@ class BrightnessService : Service() {
         return createConfigurationContext(config)
     }
 
+    private fun getSystemBrightnessAsFloat(): Float {
+        return try {
+            // Prioritize standard Int as it's the most compatible across OEMs like Honor/Huawei
+            val intVal = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS)
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // Read float as secondary for smoothing, but only if it's in sync with the int
+                val floatVal = try { Settings.System.getFloat(contentResolver, "screen_brightness_float") * 255f } catch (e: Exception) { intVal.toFloat() }
+                if (abs(floatVal - intVal) < 2.0f) {
+                    return floatVal
+                }
+            }
+            intVal.toFloat()
+        } catch (e: Exception) {
+            Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 128).toFloat()
+        }
+    }
+
     private val brightnessObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean) {
             val now = System.currentTimeMillis()
             // Ignore updates during or immediately after the app itself changes brightness
             if (now - lastAppUpdateTime < SYNC_COOLDOWN_MS) return
 
-            val systemBrightness = Settings.System.getInt(
-                contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS,
-                0
-            )
+            val systemBrightness = getSystemBrightnessAsFloat()
 
-            // If system value is identical to our last applied value, ignore
-            if (systemBrightness == lastAppliedSystemValue) return
+            // If system value is identical to our last applied value (within epsilon), ignore
+            if (abs(systemBrightness - lastAppliedSystemValue) < 1.0f) return
 
             val settings = currentSettings ?: return
             if (!settings.isServiceActive) return
@@ -120,15 +134,15 @@ class BrightnessService : Service() {
             val base = nitsCalculator.calculateBaseBrightness(currentLux)
             
             val newInternalOffset = when {
-                systemBrightness.toFloat() == base -> 0
+                abs(systemBrightness - base) < 2.0f -> 0
                 systemBrightness > base -> {
                     val range = 255f - base
-                    if (range > 0) {
+                    if (range > 1.0f) {
                         ((systemBrightness - base) / range * 255f).roundToInt()
                     } else 0
                 }
                 else -> { // systemBrightness < base
-                    if (base > 0) {
+                    if (base > 1.0f) {
                         ((systemBrightness - base) / base * 255f).roundToInt()
                     } else 0
                 }
@@ -136,7 +150,15 @@ class BrightnessService : Service() {
 
             // Calculate difference in UI scale for logging and threshold check
             val currentOffset = settings.brightnessOffset
+            
+            // Only update if the change is significant AND the device is likely not in a transition
             if (abs(newInternalOffset - currentOffset) >= JITTER_THRESHOLD) {
+                val manufacturer = Build.MANUFACTURER.lowercase()
+                val isHonorOrHuawei = manufacturer.contains("honor") || manufacturer.contains("huawei")
+                
+                // Extra conservative on Honor/Huawei to prevent "not saving" issues
+                if (isHonorOrHuawei && abs(newInternalOffset - currentOffset) < 25) return
+
                 Log.d(TAG, "Manual Override Detected: sys=$systemBrightness, lux=$currentLux -> newOffset=$newInternalOffset")
                 serviceScope.launch {
                     settingsRepository.updateBrightnessOffset(newInternalOffset)
@@ -263,7 +285,7 @@ class BrightnessService : Service() {
                                     currentAppliedBrightness += step
                                     
                                     val rounded = currentAppliedBrightness.roundToInt().coerceIn(0, 255)
-                                    if (rounded != lastAppliedSystemValue) {
+                                    if (abs(rounded - lastAppliedSystemValue) >= 1.0f) {
                                         applyBrightnessToSystem(rounded)
                                     }
                                     continuation.resume(Unit)
@@ -275,7 +297,7 @@ class BrightnessService : Service() {
                                     val step = (target - currentAppliedBrightness) * 0.12f
                                     currentAppliedBrightness += step
                                     val rounded = currentAppliedBrightness.roundToInt().coerceIn(0, 255)
-                                    if (rounded != lastAppliedSystemValue) {
+                                    if (abs(rounded - lastAppliedSystemValue) >= 1.0f) {
                                         applyBrightnessToSystem(rounded)
                                     }
                                     continuation.resume(Unit)
@@ -350,7 +372,7 @@ class BrightnessService : Service() {
             return
         }
         
-        lastAppliedSystemValue = brightness
+        lastAppliedSystemValue = brightness.toFloat()
         lastAppUpdateTime = System.currentTimeMillis()
         
         try {
@@ -401,7 +423,7 @@ class BrightnessService : Service() {
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setContentTitle(localizedContext.getString(R.string.notification_title))
             .setContentText(if (settings?.isServiceActive == true) localizedContext.getString(R.string.notification_text) else "Initializing...")
-            .setSmallIcon(R.mipmap.ic_launcher_monochrome)
+            .setSmallIcon(R.drawable.ic_notification)
             .setColor(settings?.customPrimaryColor?.toInt() ?: androidx.core.content.ContextCompat.getColor(this, R.color.glance_primary))
             .setColorized(false)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -440,7 +462,7 @@ class BrightnessService : Service() {
         val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle("EasyNits")
             .setContentText("Starting...")
-            .setSmallIcon(R.mipmap.ic_launcher_monochrome)
+            .setSmallIcon(R.drawable.ic_notification)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(true)
             .setContentIntent(pendingIntent)

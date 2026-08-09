@@ -34,6 +34,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import java.util.Calendar
 import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
@@ -147,7 +148,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 // Calculate nits based on actual screen output
                 val targetNits = nitsCalculator.calculateScreenNits(targetBrightness)
                 
-                targetNits to (targetBrightness / 255f * 100).toInt()
+                // Use a more conservative perceptual scale (0.7 power) to match Oppo/ColorOS/MagicOS slider logic
+                val perceptualPercent = (targetBrightness / 255f).toDouble().pow(0.7).toFloat() * 100
+                
+                targetNits to perceptualPercent.toInt()
             }.collectLatest { (nits, percent) ->
                 _targetNits.value = nits
                 _smoothBrightnessPercent.value = percent

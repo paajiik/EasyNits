@@ -37,21 +37,21 @@ class NitsCalculator(
      * Uses a logarithmic curve that balances visibility in various lighting conditions.
      */
     fun calculateBaseBrightness(lux: Float): Float {
-        // Ensure even at 0 lux we have a small baseline for visibility and offset range.
-        // Human eyes perceive light logarithmically, so we use log10(lux).
-        val effectiveLux = max(1f, lux)
+        // Human eyes perceive light logarithmically.
+        val effectiveLux = max(0.1f, lux)
         val logLux = log10(effectiveLux.toDouble()).toFloat()
         
-        // Logarithmic mapping:
-        // We want 1 lux (log=0) -> ~5 (dim but visible in darkness) 
-        // We want 10000 lux (log=4) -> 255 (full bright)
+        // Universal Logarithmic scale: 
+        // -0.6 (approx 0.25 lux) to 4.8 (approx 63,000 lux)
+        val minLog = -0.6f 
+        val maxLog = 4.8f  
         
-        val minBase = 5f
-        val maxLog = 4f // 10^4 = 10000 lux
+        val normalized = (logLux - minLog) / (maxLog - minLog)
         
-        val normalizedLog = (logLux / maxLog).coerceIn(0f, 1f)
-        val base = minBase + normalizedLog * (255f - minBase)
+        // Power 2.2: Aggressive curve to keep the low-end very dim (0.1 - 10 lux).
+        // This prevents the "40% at night" issue seen on Honor/Oppo.
+        val base = 1.2f + normalized.coerceIn(0f, 1f).pow(2.2f) * 253.8f
         
-        return base.coerceIn(0f, 255f)
+        return base.coerceIn(1.2f, 255f)
     }
 }
