@@ -49,6 +49,8 @@ class SettingsRepository private constructor(context: Context) {
         val APP_ICON = stringPreferencesKey("app_icon")
         val LANGUAGE = stringPreferencesKey("language")
         val SCHEDULED_OFFSETS = stringPreferencesKey("scheduled_offsets")
+        val LAST_BRIGHTNESS_PERCENT = intPreferencesKey("last_brightness_percent")
+        val LAST_UNLOCK_TIME = longPreferencesKey("last_unlock_time")
     }
 
     val settingsFlow: Flow<UserSettings> = appContext.dataStore.data.map { preferences ->
@@ -69,7 +71,9 @@ class SettingsRepository private constructor(context: Context) {
             customTextColor = preferences[PreferencesKeys.CUSTOM_TEXT_COLOR],
             appIcon = preferences[PreferencesKeys.APP_ICON] ?: "v1",
             language = preferences[PreferencesKeys.LANGUAGE] ?: "system",
-            scheduledOffsets = scheduledList
+            scheduledOffsets = scheduledList,
+            lastBrightnessPercent = preferences[PreferencesKeys.LAST_BRIGHTNESS_PERCENT] ?: 0,
+            lastUnlockTime = preferences[PreferencesKeys.LAST_UNLOCK_TIME] ?: 0L
         )
     }
 
@@ -139,6 +143,18 @@ class SettingsRepository private constructor(context: Context) {
             preferences[PreferencesKeys.SCHEDULED_OFFSETS] = adapter.toJson(offsets)
         }
     }
+
+    suspend fun updateLastBrightnessPercent(percent: Int) {
+        appContext.dataStore.edit { preferences ->
+            if (preferences[PreferencesKeys.LAST_BRIGHTNESS_PERCENT] != percent) {
+                preferences[PreferencesKeys.LAST_BRIGHTNESS_PERCENT] = percent
+            }
+        }
+    }
+
+    suspend fun updateLastUnlockTime(time: Long) {
+        appContext.dataStore.edit { it[PreferencesKeys.LAST_UNLOCK_TIME] = time }
+    }
 }
 
 @JsonClass(generateAdapter = true)
@@ -164,5 +180,7 @@ data class UserSettings(
     val customTextColor: Long?,
     val appIcon: String,
     val language: String,
-    val scheduledOffsets: List<ScheduledOffset> = emptyList()
+    val scheduledOffsets: List<ScheduledOffset> = emptyList(),
+    val lastBrightnessPercent: Int = 0,
+    val lastUnlockTime: Long = 0L
 )

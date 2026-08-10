@@ -223,6 +223,14 @@ class UpdateOffsetAction : ActionCallback {
         val change = parameters[CHANGE_KEY] ?: 0
         val repository = SettingsRepository.getInstance(context)
         val currentSettings = repository.settingsFlow.first()
+        
+        // Honor/Huawei safety: don't allow widget updates if very close to an unlock event
+        // to prevent sync-fighting during the "screen jump"
+        val now = System.currentTimeMillis()
+        if (now - currentSettings.lastUnlockTime < 1000) {
+            return
+        }
+
         val currentUiOffset = (currentSettings.brightnessOffset * 100f / 255f).roundToInt()
         val newUiOffset = (currentUiOffset + change).coerceIn(-100, 100)
         val newInternalOffset = (newUiOffset * 255f / 100f).roundToInt()

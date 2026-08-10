@@ -4,6 +4,7 @@ import kotlin.math.PI
 import kotlin.math.pow
 import kotlin.math.log10
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 /**
  * Modular logic for nits calculation and brightness mapping.
@@ -38,20 +39,26 @@ class NitsCalculator(
      */
     fun calculateBaseBrightness(lux: Float): Float {
         // Human eyes perceive light logarithmically.
-        val effectiveLux = max(0.1f, lux)
+        val effectiveLux = max(0.05f, lux)
         val logLux = log10(effectiveLux.toDouble()).toFloat()
         
-        // Universal Logarithmic scale: 
-        // -0.6 (approx 0.25 lux) to 4.8 (approx 63,000 lux)
-        val minLog = -0.6f 
-        val maxLog = 4.8f  
+        // Universal Logarithmic scale optimized for high-end responsiveness (Oppo)
+        // while maintaining ultra-dim night performance (Honor).
+        val minLog = -1.0f // 0.1 lux
+        val maxLog = 4.3f  // ~20,000 lux
         
         val normalized = (logLux - minLog) / (maxLog - minLog)
         
-        // Power 2.2: Aggressive curve to keep the low-end very dim (0.1 - 10 lux).
-        // This prevents the "40% at night" issue seen on Honor/Oppo.
-        val base = 1.2f + normalized.coerceIn(0f, 1f).pow(2.2f) * 253.8f
+        // Power 2.4: Steep enough for darkness, but reaches 100% at ~20k lux.
+        val base = 1.0f + normalized.coerceIn(0f, 1f).pow(2.4f) * 254.0f
         
-        return base.coerceIn(1.2f, 255f)
+        return base.coerceIn(1.0f, 255f)
+    }
+
+    /**
+     * Converts raw linear brightness (0-255) to a perceptual percentage (0-100).
+     */
+    fun calculatePerceptualPercent(brightness: Float): Int {
+        return (brightness / 255f).toDouble().pow(0.7).toFloat().let { (it * 100).roundToInt() }.coerceIn(0, 100)
     }
 }

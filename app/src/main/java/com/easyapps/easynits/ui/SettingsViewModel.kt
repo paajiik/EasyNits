@@ -52,15 +52,22 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
 
         var minNits = 2.0f
-        var maxNits = 1000.0f
+        var maxNits = 500.0f // Standard SDR baseline
 
-        val hdrCapabilities = display?.hdrCapabilities
-        val detectedMax = hdrCapabilities?.desiredMaxLuminance ?: 0f
-        val detectedMin = hdrCapabilities?.desiredMinLuminance ?: 0f
+        val hdr = display?.hdrCapabilities
+        val detectedMax = hdr?.desiredMaxLuminance ?: 0f
+        val detectedMin = hdr?.desiredMinLuminance ?: 0f
+        
+        // Universal Flagship Detection
+        val supportsHighDynamicRange = hdr?.supportedHdrTypes?.isNotEmpty() == true
+        val isHighEndPanel = supportsHighDynamicRange || detectedMax > 800f
 
-        if (detectedMax > 100f) {
+        if (isHighEndPanel) {
+            maxNits = if (detectedMax > 1200f) detectedMax else 1500f
+        } else if (detectedMax > 100f) {
             maxNits = detectedMax
         }
+
         if (detectedMin > 0f && detectedMin < 10f) {
             minNits = detectedMin
         }
@@ -148,13 +155,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 // Calculate nits based on actual screen output
                 val targetNits = nitsCalculator.calculateScreenNits(targetBrightness)
                 
-                // Use a more conservative perceptual scale (0.7 power) to match Oppo/ColorOS/MagicOS slider logic
-                val perceptualPercent = (targetBrightness / 255f).toDouble().pow(0.7).toFloat() * 100
+                // Use perceptual scale to match OEM slider percentages (Oppo/Honor/Samsung)
+                val percent = nitsCalculator.calculatePerceptualPercent(targetBrightness)
                 
-                targetNits to perceptualPercent.toInt()
+                targetNits to percent
             }.collectLatest { (nits, percent) ->
                 _targetNits.value = nits
-                _smoothBrightnessPercent.value = percent
+                if (_smoothBrightnessPercent.value != percent) {
+                    _smoothBrightnessPercent.value = percent
+                    repository.updateLastBrightnessPercent(percent)
+                }
             }
         }
     }
