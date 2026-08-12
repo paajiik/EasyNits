@@ -12,6 +12,11 @@
     <string name="grant_btn">Zulassen</string>
     <string name="notifications_required_title">Benachrichtigungen erforderlich</string>
     <string name="notifications_required_desc">Berechtigung erteilen, um den Hintergrundstatus anzuzeigen.</string>
+    <string name="battery_optimization_title">Akku-Optimierung</string>
+    <string name="battery_optimization_desc">EasyNits muss von der Akku-Optimierung ausgeschlossen werden, um zuverlässig im Hintergrund zu arbeiten, insbesondere auf Samsung-Geräten.</string>
+    <string name="disable_optimization_btn">Optimierung deaktivieren</string>
+    <string name="samsung_battery_tip">Tipp für Samsung: In App-Info > Akku, die Option \'Nicht eingeschränkt\' wählen für maximale Zuverlässigkeit.</string>
+    <string name="app_info_btn">App-Info</string>
     <string name="brightness_offset_title">Helligkeits-Offset</string>
     <string name="offset_label">Offset: %1$s</string>
     <string name="current_brightness_percent">Aktuelle Helligkeit: %1$d%%</string>
@@ -101,4 +106,11 @@
     <string name="notification_text">Helligkeit wird angepasst</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">Symbol geändert. Bitte App neu starten.</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">EasyNits-Dienst</string>
+    <string name="tile_active">Aktiv</string>
+    <string name="tile_inactive">Inaktiv</string>
+    <string name="power_save_mode_title">Energiesparmodus aktiv</string>
+    <string name="power_save_mode_desc">Der Energiesparmodus des Systems ist aktiv. Dies kann dazu führen, dass der Helligkeitsdienst beendet wird. Deaktivieren Sie für beste Ergebnisse den Energiesparmodus oder schließen Sie EasyNits aus.</string>
 </resources>

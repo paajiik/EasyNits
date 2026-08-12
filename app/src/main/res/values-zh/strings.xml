@@ -10,6 +10,11 @@
     <string name="grant_btn">授予</string>
     <string name="notifications_required_title">需要通知权限</string>
     <string name="notifications_required_desc">授予权限以显示后台状态。</string>
+    <string name="battery_optimization_title">电池优化</string>
+    <string name="battery_optimization_desc">EasyNits 需要从电池优化中排除，以便在后台可靠运行，尤其是在三星设备上。</string>
+    <string name="disable_optimization_btn">禁用优化</string>
+    <string name="samsung_battery_tip">三星提示：在“应用信息 > 电池”中，选择“不受限制”以获得最大的可靠性。</string>
+    <string name="app_info_btn">应用信息</string>
     <string name="brightness_offset_title">亮度偏移</string>
     <string name="offset_label">偏移量: %1$s</string>
     <string name="current_brightness_percent">当前亮度: %1$d%%</string>
@@ -93,4 +98,11 @@
     <string name="notification_text">正在管理屏幕亮度</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">图标已更改。请重新打开应用程序。</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">EasyNits 服务</string>
+    <string name="tile_active">启用</string>
+    <string name="tile_inactive">禁用</string>
+    <string name="power_save_mode_title">省电模式已开启</string>
+    <string name="power_save_mode_desc">系统省电模式已开启。这可能会导致亮度服务被终止。为了获得最佳效果，请关闭省电模式或将 EasyNits 排除在外。</string>
 </resources>

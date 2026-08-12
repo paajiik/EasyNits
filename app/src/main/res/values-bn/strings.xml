@@ -10,6 +10,11 @@
     <string name="grant_btn">অনুমতি দিন</string>
     <string name="notifications_required_title">নোটিফিকেশন প্রয়োজন</string>
     <string name="notifications_required_desc">ব্যাকগ্রাউন্ড স্ট্যাটাস দেখানোর জন্য অনুমতি দিন।</string>
+    <string name="battery_optimization_title">ব্যাটারি অপ্টিমাইজেশান</string>
+    <string name="battery_optimization_desc">ব্যাকগ্রাউন্ডে নির্ভরযোগ্যভাবে কাজ করার জন্য EasyNits-কে ব্যাটারি অপ্টিমাইজেশান থেকে বাদ দিতে হবে, বিশেষ করে স্যামসাং ডিভাইসে।</string>
+    <string name="disable_optimization_btn">অপ্টিমাইজেশান নিষ্ক্রিয় করুন</string>
+    <string name="samsung_battery_tip">স্যামসাংয়ের জন্য টিপ: অ্যাপ তথ্য > ব্যাটারি-তে, সর্বাধিক নির্ভরযোগ্যতার জন্য \'অবাধ\' (Unrestricted) নির্বাচন করুন।</string>
+    <string name="app_info_btn">অ্যাপ তথ্য</string>
     <string name="brightness_offset_title">ব্রাইটনেস অফসেট</string>
     <string name="offset_label">অফসেট: %1$s</string>
     <string name="current_brightness_percent">বর্তমান ব্রাইটনেস: %1$d%%</string>
@@ -93,4 +98,11 @@
     <string name="notification_text">স্ক্রিন ব্রাইটনেস পরিচালনা করা হচ্ছে</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">আইকন পরিবর্তন করা হয়েছে। দয়া করে অ্যাপটি পুনরায় খুলুন।</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">EasyNits পরিষেবা</string>
+    <string name="tile_active">সক্রিয়</string>
+    <string name="tile_inactive">নিষ্ক্রিয়</string>
+    <string name="power_save_mode_title">পাওয়ার সেভিং মোড সক্রিয়</string>
+    <string name="power_save_mode_desc">সিস্টেম পাওয়ার সেভিং সক্রিয়। এর ফলে উজ্জ্বলতা পরিষেবা বন্ধ হয়ে যেতে পারে। সেরা ফলাফলের জন্য, পাওয়ার সেভিং নিষ্ক্রিয় করুন অথবা EasyNits-কে বাদ দিন।</string>
 </resources>

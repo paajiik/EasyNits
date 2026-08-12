@@ -10,6 +10,11 @@
     <string name="grant_btn">Accorder</string>
     <string name="notifications_required_title">Notifications requises</string>
     <string name="notifications_required_desc">Autoriser l\'affichage de l\'état en arrière-plan.</string>
+    <string name="battery_optimization_title">Optimisation de la batterie</string>
+    <string name="battery_optimization_desc">EasyNits doit être exclu de l\'optimisation de la batterie pour fonctionner de manière fiable en arrière-plan, en particulier sur les appareils Samsung.</string>
+    <string name="disable_optimization_btn">Désactiver l\'optimisation</string>
+    <string name="samsung_battery_tip">Conseil pour Samsung : Dans Infos sur l\'appli > Batterie, sélectionnez \'Non restreinte\' pour une fiabilité maximale.</string>
+    <string name="app_info_btn">Infos sur l\'appli</string>
     <string name="brightness_offset_title">Décalage de luminosité</string>
     <string name="offset_label">Décalage : %1$s</string>
     <string name="current_brightness_percent">Luminosité actuelle : %1$d%%</string>
@@ -93,4 +98,11 @@
     <string name="notification_text">Gestion de la luminosité de l\'écran</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">Icône modifiée. Veuillez rouvrir l\'application.</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">Service EasyNits</string>
+    <string name="tile_active">Actif</string>
+    <string name="tile_inactive">Inactif</string>
+    <string name="power_save_mode_title">Mode économie d\'énergie actif</string>
+    <string name="power_save_mode_desc">L\'économie d\'énergie du système est active. Cela peut entraîner l\'arrêt du service de luminosité. Pour de meilleurs résultats, désactivez l\'économie d\'énergie ou excluez EasyNits.</string>
 </resources>

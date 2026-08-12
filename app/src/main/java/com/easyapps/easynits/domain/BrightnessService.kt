@@ -5,6 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.app.KeyguardManager
+import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.content.BroadcastReceiver
@@ -15,6 +17,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.PowerManager
 import android.provider.Settings
 import android.util.Log
 import android.view.Display
@@ -51,6 +54,13 @@ class BrightnessService : Service() {
     
     private lateinit var settingsRepository: SettingsRepository
     private lateinit var luxSensorManager: LuxSensorManager
+
+    private var wakeLock: PowerManager.WakeLock? = null
+
+    private val keyguardManager: KeyguardManager by lazy {
+        getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+    }
+
     private val nitsCalculator: NitsCalculator by lazy {
         val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
@@ -139,8 +149,14 @@ class BrightnessService : Service() {
             val now = System.currentTimeMillis()
             if (now - lastAppUpdateTime < SYNC_COOLDOWN_MS) return
             
-            // Increased to 12 seconds to completely clear Honor's Face Unlock brightness ramps
-            if (now - lastSystemEventTime < 12000L) return
+            // Increased to 15 seconds to completely clear Honor's Face Unlock brightness ramps
+            if (now - lastSystemEventTime < 15000L) return
+
+            // Ignore system changes while the keyguard is locked (prevents Face Unlock ramp override)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && keyguardManager.isKeyguardLocked) {
+                Log.d(TAG, "Keyguard locked, ignoring system brightness change.")
+                return
+            }
 
             val systemBrightness = getSystemBrightnessAsFloat()
             if (abs(systemBrightness - lastAppliedSystemValue) < 1.0f) return
@@ -187,6 +203,13 @@ class BrightnessService : Service() {
         settingsRepository = SettingsRepository.getInstance(this)
         luxSensorManager = LuxSensorManager(this)
 
+        wakeLock = (getSystemService(Context.POWER_SERVICE) as PowerManager).newWakeLock(
+            PowerManager.PARTIAL_WAKE_LOCK,
+            "EasyNits:BrightnessWakeLock"
+        ).apply {
+            setReferenceCounted(false)
+        }
+
         showInitialNotification()
 
         if (!Settings.System.canWrite(this)) {
@@ -203,6 +226,7 @@ class BrightnessService : Service() {
             addAction(Intent.ACTION_SCREEN_ON)
             addAction(Intent.ACTION_SCREEN_OFF)
             addAction(Intent.ACTION_USER_PRESENT)
+            addAction(Intent.ACTION_USER_UNLOCKED)
         }
         registerReceiver(systemEventReceiver, filter)
 
@@ -230,6 +254,7 @@ class BrightnessService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        acquireWakeLock()
         val fromBoot = intent?.getBooleanExtra("FROM_BOOT", false) == true
         if (fromBoot) {
             isStartedFromBoot = true
@@ -247,7 +272,46 @@ class BrightnessService : Service() {
                 }
             }
         }
-        return START_STICKY
+        return START_REDELIVER_INTENT
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        val restartServiceIntent = Intent(applicationContext, this.javaClass).also {
+            it.setPackage(packageName)
+        }
+        val restartServicePendingIntent = PendingIntent.getService(
+            this,
+            1,
+            restartServiceIntent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
+        val alarmService = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmService.set(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            android.os.SystemClock.elapsedRealtime() + 1000,
+            restartServicePendingIntent
+        )
+        super.onTaskRemoved(rootIntent)
+    }
+
+    private fun acquireWakeLock() {
+        try {
+            if (wakeLock?.isHeld == false) {
+                wakeLock?.acquire(10 * 60 * 1000L /*10 minutes*/)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error acquiring wake lock", e)
+        }
+    }
+
+    private fun releaseWakeLock() {
+        try {
+            if (wakeLock?.isHeld == true) {
+                wakeLock?.release()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error releasing wake lock", e)
+        }
     }
 
     private fun startBrightnessControl() {
@@ -428,6 +492,7 @@ class BrightnessService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        releaseWakeLock()
         try { unregisterReceiver(systemEventReceiver) } catch (e: Exception) {}
         contentResolver.unregisterContentObserver(brightnessObserver)
         serviceJob.cancel()

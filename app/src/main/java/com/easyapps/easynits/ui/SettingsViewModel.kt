@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.os.PowerManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import android.content.ComponentName
@@ -31,6 +32,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.channels.awaitClose
 import kotlin.coroutines.resume
 import java.util.Calendar
 import kotlin.math.abs
@@ -86,6 +88,27 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = 0f
     )
+
+    val isPowerSaveMode: StateFlow<Boolean> = callbackFlow {
+        val powerManager = getApplication<Application>().getSystemService(Context.POWER_SERVICE) as PowerManager
+        
+        val receiver = object : android.content.BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                trySend(powerManager.isPowerSaveMode)
+            }
+        }
+        
+        trySend(powerManager.isPowerSaveMode)
+        
+        getApplication<Application>().registerReceiver(
+            receiver,
+            android.content.IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+        )
+        
+        awaitClose {
+            getApplication<Application>().unregisterReceiver(receiver)
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     private val _targetNits = MutableStateFlow(0f)
     private val _smoothNits = MutableStateFlow(0f)
@@ -428,5 +451,37 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         } else {
             true
         }
+    }
+
+    fun isBatteryOptimized(): Boolean {
+        val powerManager = getApplication<Application>().getSystemService(Context.POWER_SERVICE) as PowerManager
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            !powerManager.isIgnoringBatteryOptimizations(getApplication<Application>().packageName)
+        } else {
+            false
+        }
+    }
+
+    fun requestIgnoreBatteryOptimizations(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            } catch (e: Exception) {
+                // Fallback to general settings if the specific one fails
+                val intent = Intent(Settings.ACTION_SETTINGS)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
+        }
+    }
+
+    fun openAppInfo(context: Context) {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.parse("package:${context.packageName}")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
     }
 }

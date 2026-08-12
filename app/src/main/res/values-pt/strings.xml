@@ -10,6 +10,11 @@
     <string name="grant_btn">Conceder</string>
     <string name="notifications_required_title">Notificações necessárias</string>
     <string name="notifications_required_desc">Conceder permissão para mostrar o estado em segundo plano.</string>
+    <string name="battery_optimization_title">Otimização da bateria</string>
+    <string name="battery_optimization_desc">O EasyNits precisa de ser excluído da otimização da bateria para funcionar de forma fiável em segundo plano, especialmente em dispositivos Samsung.</string>
+    <string name="disable_optimization_btn">Desativar otimização</string>
+    <string name="samsung_battery_tip">Dica para Samsung: Em Informações da aplicação > Batería, selecione \'Sem restrições\' para obter a máxima fiabilidade.</string>
+    <string name="app_info_btn">Informações da aplicação</string>
     <string name="brightness_offset_title">Compensação de brilho</string>
     <string name="offset_label">Compensação: %1$s</string>
     <string name="current_brightness_percent">Brilho atual: %1$d%%</string>
@@ -93,4 +98,11 @@
     <string name="notification_text">A gerir o brilho do ecrã</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">Ícone alterado. Por favor, reabra o aplicativo.</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">Serviço EasyNits</string>
+    <string name="tile_active">Ativo</string>
+    <string name="tile_inactive">Inativo</string>
+    <string name="power_save_mode_title">Modo de economia de energia ativo</string>
+    <string name="power_save_mode_desc">A economia de energia do sistema está ativa. Isso pode fazer com que o serviço de brilho seja encerrado. Para melhores resultados, desative a economia de energia ou exclua o EasyNits.</string>
 </resources>

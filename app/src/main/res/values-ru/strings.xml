@@ -10,6 +10,11 @@
     <string name="grant_btn">Предоставить</string>
     <string name="notifications_required_title">Требуются уведомления</string>
     <string name="notifications_required_desc">Разрешите показ статуса в фоновом режиме.</string>
+    <string name="battery_optimization_title">Оптимизация батареи</string>
+    <string name="battery_optimization_desc">EasyNits необходимо исключить из оптимизации батареи для надежной работы в фоновом режиме, особенно на устройствах Samsung.</string>
+    <string name="disable_optimization_btn">Отключить оптимизацию</string>
+    <string name="samsung_battery_tip">Совет для Samsung: В разделе «О приложении» > «Батарея» выберите «Не ограничено» для максимальной надежности.</string>
+    <string name="app_info_btn">О приложении</string>
     <string name="brightness_offset_title">Смещение яркости</string>
     <string name="offset_label">Смещение: %1$s</string>
     <string name="current_brightness_percent">Текущая яркость: %1$d%%</string>
@@ -93,4 +98,11 @@
     <string name="notification_text">Управление яркостью экрана</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">Значок изменен. Пожалуйста, перезапустите приложение.</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">Сервис EasyNits</string>
+    <string name="tile_active">Активно</string>
+    <string name="tile_inactive">Неактивно</string>
+    <string name="power_save_mode_title">Режим энергосбережения активен</string>
+    <string name="power_save_mode_desc">Системное энергосбережение включено. Это может привести к остановке службы яркости. Для достижения наилучших результатов отключите энергосбережение или добавьте EasyNits в исключения.</string>
 </resources>

@@ -49,6 +49,7 @@ fun MainScreen(
     val nits by viewModel.currentNits.collectAsState()
     val uiOffset by viewModel.uiBrightnessOffset.collectAsState()
     val brightnessPercent by viewModel.currentBrightnessPercent.collectAsState()
+    val isPowerSaveMode by viewModel.isPowerSaveMode.collectAsState()
     val settings by viewModel.settings.collectAsState()
     val context = LocalContext.current
     var hasPermission by remember { 
@@ -59,12 +60,21 @@ fun MainScreen(
         mutableStateOf(viewModel.hasNotificationPermission()) 
     }
 
+    var isBatteryOptimized by remember {
+        mutableStateOf(viewModel.isBatteryOptimized())
+    }
+
     var showAutoStartInfo by remember { mutableStateOf(false) }
+
+    var dismissedBatteryAlert by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    var dismissedPowerSaveAlert by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    var dismissedNotificationAlert by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
 
     // Update permission state when app is resumed
     androidx.lifecycle.compose.LifecycleResumeEffect(Unit) {
         hasPermission = viewModel.hasWriteSettingsPermission()
         hasNotificationPermission = viewModel.hasNotificationPermission()
+        isBatteryOptimized = viewModel.isBatteryOptimized()
         onPauseOrDispose { }
     }
 
@@ -163,13 +173,38 @@ fun MainScreen(
             )
         }
 
+        if ((isBatteryOptimized || Build.MANUFACTURER.lowercase().contains("samsung")) && !dismissedBatteryAlert) {
+            val isSamsung = Build.MANUFACTURER.lowercase().contains("samsung")
+            AlertCard(
+                title = stringResource(R.string.battery_optimization_title),
+                description = stringResource(R.string.battery_optimization_desc),
+                buttonText = stringResource(R.string.disable_optimization_btn),
+                onClick = { viewModel.requestIgnoreBatteryOptimizations(context) },
+                secondaryButtonText = if (isSamsung) stringResource(R.string.app_info_btn) else null,
+                secondaryOnClick = if (isSamsung) { { viewModel.openAppInfo(context) } } else null,
+                tipText = if (isSamsung) stringResource(R.string.samsung_battery_tip) else null,
+                onDismiss = { dismissedBatteryAlert = true }
+            )
+        }
+
+        if (isPowerSaveMode && !dismissedPowerSaveAlert) {
+            AlertCard(
+                title = stringResource(R.string.power_save_mode_title),
+                description = stringResource(R.string.power_save_mode_desc),
+                buttonText = stringResource(R.string.got_it_btn),
+                onClick = { dismissedPowerSaveAlert = true },
+                onDismiss = { dismissedPowerSaveAlert = true }
+            )
+        }
+
         settings?.let { s ->
-            if (s.runInBackground && !hasNotificationPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (s.runInBackground && !hasNotificationPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !dismissedNotificationAlert) {
                 AlertCard(
                     title = stringResource(R.string.notifications_required_title),
                     description = stringResource(R.string.notifications_required_desc),
                     buttonText = stringResource(R.string.grant_btn),
-                    onClick = { permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS) }
+                    onClick = { permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS) },
+                    onDismiss = { dismissedNotificationAlert = true }
                 )
             }
 
@@ -492,34 +527,94 @@ fun AlertCard(
     title: String,
     description: String,
     buttonText: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    secondaryButtonText: String? = null,
+    secondaryOnClick: (() -> Unit)? = null,
+    tipText: String? = null,
+    onDismiss: (() -> Unit)? = null
 ) {
     OutlinedCard(
         colors = CardDefaults.outlinedCardColors(
             containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.1f)
         ),
-        shape = MaterialTheme.shapes.extraLarge
+        shape = MaterialTheme.shapes.extraLarge,
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(MaterialTheme.dimensions.extraLarge)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onErrorContainer,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onErrorContainer
-            )
-            Spacer(modifier = Modifier.height(MaterialTheme.dimensions.medium))
-            Button(
-                onClick = onClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error
+        Box(modifier = Modifier.fillMaxWidth()) {
+            if (onDismiss != null) {
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(MaterialTheme.dimensions.small)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Close,
+                        contentDescription = "Dismiss",
+                        modifier = Modifier.size(20.dp),
+                        tint = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.6f)
+                    )
+                }
+            }
+
+            Column(modifier = Modifier.padding(MaterialTheme.dimensions.extraLarge)) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(end = if (onDismiss != null) 32.dp else 0.dp)
                 )
-            ) {
-                Text(buttonText)
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onErrorContainer
+                )
+                
+                if (tipText != null) {
+                    Spacer(modifier = Modifier.height(MaterialTheme.dimensions.small))
+                    Text(
+                        text = tipText,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(MaterialTheme.dimensions.medium))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.small)
+                ) {
+                    Button(
+                        onClick = onClick,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error
+                        ),
+                        modifier = if (secondaryButtonText != null) Modifier.weight(1f) else Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = buttonText,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    if (secondaryButtonText != null && secondaryOnClick != null) {
+                        OutlinedButton(
+                            onClick = secondaryOnClick,
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colorScheme.error
+                            ),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.error),
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = secondaryButtonText,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
             }
         }
     }

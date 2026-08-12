@@ -12,6 +12,11 @@
     <string name="grant_btn">Izinkan</string>
     <string name="notifications_required_title">Notifikasi Diperlukan</string>
     <string name="notifications_required_desc">Berikan izin untuk menampilkan status latar belakang.</string>
+    <string name="battery_optimization_title">Optimisasi Baterai</string>
+    <string name="battery_optimization_desc">EasyNits perlu dikecualikan dari optimisasi baterai agar dapat bekerja dengan andal di latar belakang, terutama pada perangkat Samsung.</string>
+    <string name="disable_optimization_btn">Nonaktifkan Optimisasi</string>
+    <string name="samsung_battery_tip">Tips untuk Samsung: Di Info Aplikasi > Baterai, pilih \'Tidak Dibatasi\' untuk keandalan maksimum.</string>
+    <string name="app_info_btn">Info Aplikasi</string>
     <string name="brightness_offset_title">Offset Kecerahan</string>
     <string name="offset_label">Offset: %1$s</string>
     <string name="current_brightness_percent">Kecerahan saat ini: %1$d%%</string>
@@ -101,4 +106,11 @@
     <string name="notification_text">Mengelola kecerahan layar</string>
     <string name="widget_name">Offset EasyNits</string>
     <string name="icon_changed_toast">Ikon diubah. Silakan buka kembali aplikasi.</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">Layanan EasyNits</string>
+    <string name="tile_active">Aktif</string>
+    <string name="tile_inactive">Tidak Aktif</string>
+    <string name="power_save_mode_title">Mode Hemat Daya Aktif</string>
+    <string name="power_save_mode_desc">Penghemat daya sistem aktif. Ini dapat menyebabkan layanan kecerahan dihentikan. Untuk hasil terbaik, nonaktifkan penghemat daya atau kecualikan EasyNits.</string>
 </resources>

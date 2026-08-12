@@ -12,6 +12,11 @@
     <string name="grant_btn">Grant</string>
     <string name="notifications_required_title">Notifications Required</string>
     <string name="notifications_required_desc">Grant permission to show background status.</string>
+    <string name="battery_optimization_title">Battery Optimization</string>
+    <string name="battery_optimization_desc">EasyNits needs to be excluded from battery optimization to work reliably in the background, especially on Samsung devices.</string>
+    <string name="disable_optimization_btn">Disable Optimization</string>
+    <string name="samsung_battery_tip">Tip for Samsung: In App Info > Battery, select \'Unrestricted\' for maximum reliability.</string>
+    <string name="app_info_btn">App Info</string>
     <string name="brightness_offset_title">Brightness Offset</string>
     <string name="offset_label">Offset: %1$s</string>
     <string name="current_brightness_percent">Current brightness: %1$d%%</string>
@@ -46,6 +51,9 @@
     <string name="day_fri">FRI</string>
     <string name="day_sat">SAT</string>
     <string name="day_sun">SUN</string>
+
+    <string name="power_save_mode_title">Power Saving Mode Active</string>
+    <string name="power_save_mode_desc">System power saving is active. This may cause the brightness service to be terminated. For best results, disable power saving or exclude EasyNits.</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
@@ -100,4 +108,9 @@
     <string name="notification_text">Managing screen brightness</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">Icon changed. Please reopen the app.</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">EasyNits Service</string>
+    <string name="tile_active">Active</string>
+    <string name="tile_inactive">Inactive</string>
 </resources>

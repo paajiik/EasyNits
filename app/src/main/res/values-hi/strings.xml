@@ -10,6 +10,11 @@
     <string name="grant_btn">अनुमति दें</string>
     <string name="notifications_required_title">सूचनाएं आवश्यक</string>
     <string name="notifications_required_desc">बैकग्राउंड स्थिति दिखाने के लिए अनुमति दें।</string>
+    <string name="battery_optimization_title">बैटरी अनुकूलन</string>
+    <string name="battery_optimization_desc">बैकग्राउंड में विश्वसनीय रूप से काम करने के लिए EasyNits को बैटरी अनुकूलन से बाहर रखा जाना चाहिए, विशेष रूप से सैमसंग डिवाइस पर।</string>
+    <string name="disable_optimization_btn">अनुकूलन अक्षम करें</string>
+    <string name="samsung_battery_tip">सैमसंग के लिए टिप: ऐप जानकारी > बैटरी में, अधिकतम विश्वसनीयता के लिए \'अप्रतिबंधित\' (Unrestricted) चुनें।</string>
+    <string name="app_info_btn">ऐप जानकारी</string>
     <string name="brightness_offset_title">ब्राइटनेस ऑफसेट</string>
     <string name="offset_label">ऑफसेट: %1$s</string>
     <string name="current_brightness_percent">वर्तमान ब्राइटनेस: %1$d%%</string>
@@ -93,4 +98,11 @@
     <string name="notification_text">स्क्रीन ब्राइटनेस का प्रबंधन किया जा रहा है</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">आइकन बदल गया। कृपया ऐप को फिर से खोलें।</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">EasyNits सेवा</string>
+    <string name="tile_active">सक्रिय</string>
+    <string name="tile_inactive">निष्क्रिय</string>
+    <string name="power_save_mode_title">पावर सेविंग मोड सक्रिय है</string>
+    <string name="power_save_mode_desc">सिस्टम पावर सेविंग सक्रिय है। इससे ब्राइटनेस सर्विस बंद हो सकती है। सर्वोत्तम परिणामों के लिए, पावर सेविंग को अक्षम करें या EasyNits को बाहर रखें।</string>
 </resources>

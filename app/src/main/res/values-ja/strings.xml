@@ -10,6 +10,11 @@
     <string name="grant_btn">許可する</string>
     <string name="notifications_required_title">通知権限が必要です</string>
     <string name="notifications_required_desc">バックグラウンドの状態を表示するための権限を許可してください。</string>
+    <string name="battery_optimization_title">バッテリーの最適化</string>
+    <string name="battery_optimization_desc">EasyNitsをバックグラウンドで安定して動作させるために、バッテリーの最適化から除外する必要があります（特にSamsungデバイスの場合）。</string>
+    <string name="disable_optimization_btn">最適化を無効にする</string>
+    <string name="samsung_battery_tip">Samsung向けのヒント：[アプリ情報] > [バッテリー] で、[制限なし] を選択すると安定性が向上します。</string>
+    <string name="app_info_btn">アプリ情報</string>
     <string name="brightness_offset_title">明るさのオフセット</string>
     <string name="offset_label">オフセット: %1$s</string>
     <string name="current_brightness_percent">現在の明るさ: %1$d%%</string>
@@ -93,4 +98,11 @@
     <string name="notification_text">画面の明るさを管理しています</string>
     <string name="widget_name">EasyNits Offset</string>
     <string name="icon_changed_toast">アイコンが変更されました。アプリを再起動してください。</string>
+
+    <!-- Quick Settings Tile -->
+    <string name="tile_name">EasyNits サービス</string>
+    <string name="tile_active">有効</string>
+    <string name="tile_inactive">無効</string>
+    <string name="power_save_mode_title">省電力モードが有効です</string>
+    <string name="power_save_mode_desc">システムの省電力機能が有効です。これにより輝度サービスが終了する可能性があります。最良の結果を得るには、省電力を無効にするか、EasyNits を除外してください。</string>
 </resources>
