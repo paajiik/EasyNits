@@ -107,6 +107,7 @@
     <string name="notification_title">EasyNits is running</string>
     <string name="notification_text">Managing screen brightness</string>
     <string name="widget_name">EasyNits Offset</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
     <string name="icon_changed_toast">Icon changed. Please reopen the app.</string>
 
     <!-- Quick Settings Tile -->

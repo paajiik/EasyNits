@@ -105,4 +105,5 @@
     <string name="tile_inactive">Неактивно</string>
     <string name="power_save_mode_title">Режим энергосбережения активен</string>
     <string name="power_save_mode_desc">Системное энергосбережение включено. Это может привести к остановке службы яркости. Для достижения наилучших результатов отключите энергосбережение или добавьте EasyNits в исключения.</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

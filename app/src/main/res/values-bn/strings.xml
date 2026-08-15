@@ -105,4 +105,5 @@
     <string name="tile_inactive">নিষ্ক্রিয়</string>
     <string name="power_save_mode_title">পাওয়ার সেভিং মোড সক্রিয়</string>
     <string name="power_save_mode_desc">সিস্টেম পাওয়ার সেভিং সক্রিয়। এর ফলে উজ্জ্বলতা পরিষেবা বন্ধ হয়ে যেতে পারে। সেরা ফলাফলের জন্য, পাওয়ার সেভিং নিষ্ক্রিয় করুন অথবা EasyNits-কে বাদ দিন।</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

@@ -105,4 +105,5 @@
     <string name="tile_inactive">Inativo</string>
     <string name="power_save_mode_title">Modo de economia de energia ativo</string>
     <string name="power_save_mode_desc">A economia de energia do sistema está ativa. Isso pode fazer com que o serviço de brilho seja encerrado. Para melhores resultados, desative a economia de energia ou exclua o EasyNits.</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

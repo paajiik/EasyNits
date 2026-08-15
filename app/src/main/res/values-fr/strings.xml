@@ -105,4 +105,5 @@
     <string name="tile_inactive">Inactif</string>
     <string name="power_save_mode_title">Mode économie d\'énergie actif</string>
     <string name="power_save_mode_desc">L\'économie d\'énergie du système est active. Cela peut entraîner l\'arrêt du service de luminosité. Pour de meilleurs résultats, désactivez l\'économie d\'énergie ou excluez EasyNits.</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

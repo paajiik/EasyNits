@@ -105,4 +105,5 @@
     <string name="tile_inactive">Inattivo</string>
     <string name="power_save_mode_title">Modalità risparmio energetico attiva</string>
     <string name="power_save_mode_desc">Il risparmio energetico del sistema è attivo. Ciò potrebbe causare l\'interruzione del servizio di luminosità. Per risultati ottimali, disabilita il risparmio energetico o escludi EasyNits.</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

@@ -60,7 +60,7 @@ class BrightnessTileService : TileService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             tile.subtitle = if (isActive) getString(R.string.tile_active) else getString(R.string.tile_inactive)
         }
-        tile.icon = Icon.createWithResource(this, R.drawable.ic_notification)
+        tile.icon = Icon.createWithResource(this, R.drawable.ic_qs_tile)
         tile.updateTile()
     }
 

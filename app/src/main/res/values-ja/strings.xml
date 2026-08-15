@@ -105,4 +105,5 @@
     <string name="tile_inactive">無効</string>
     <string name="power_save_mode_title">省電力モードが有効です</string>
     <string name="power_save_mode_desc">システムの省電力機能が有効です。これにより輝度サービスが終了する可能性があります。最良の結果を得るには、省電力を無効にするか、EasyNits を除外してください。</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

@@ -105,4 +105,5 @@
     <string name="tile_inactive">禁用</string>
     <string name="power_save_mode_title">省电模式已开启</string>
     <string name="power_save_mode_desc">系统省电模式已开启。这可能会导致亮度服务被终止。为了获得最佳效果，请关闭省电模式或将 EasyNits 排除在外。</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

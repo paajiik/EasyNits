@@ -34,7 +34,7 @@
         <service
             android:name=".domain.BrightnessTileService"
             android:exported="true"
-            android:icon="@drawable/ic_notification"
+            android:icon="@drawable/ic_qs_tile"
             android:label="@string/tile_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
@@ -62,6 +62,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/brightness_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".ui.widget.BrightnessToggleWidgetReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/toggle_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/brightness_toggle_widget_info" />
         </receiver>
 
         <receiver

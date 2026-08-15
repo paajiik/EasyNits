@@ -105,4 +105,5 @@
     <string name="tile_inactive">비활성</string>
     <string name="power_save_mode_title">절전 모드 활성화됨</string>
     <string name="power_save_mode_desc">시스템 절전 모드가 활성화되어 있습니다. 이로 인해 밝기 서비스가 종료될 수 있습니다. 최상의 결과를 얻으려면 절전 모드를 비활성화하거나 EasyNits를 제외하세요.</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>

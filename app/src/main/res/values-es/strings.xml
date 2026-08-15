@@ -113,4 +113,5 @@
     <string name="tile_inactive">Inactivo</string>
     <string name="power_save_mode_title">Modo de ahorro de energía activo</string>
     <string name="power_save_mode_desc">El ahorro de energía del sistema está activo. Esto puede causar que el servicio de brillo se detenga. Para obtener mejores resultados, desactive el ahorro de energía o excluya EasyNits.</string>
+    <string name="toggle_widget_name">EasyNits Toggle</string>
 </resources>
