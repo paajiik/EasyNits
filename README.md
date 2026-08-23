@@ -1,6 +1,10 @@
 # Hello! This is EasyNits! ツ
 
-EasyNits is a simple brightness management tool designed for comfort, automation, and personalization. The app includes features like \"Dynamic Nits Control\" with fast ambient light detection for responsive, smooth transitions, \"Personalized Offsets\" to manually fine-tune the brightness baseline to suit your comfort level, and \"Scheduled Time Frames\" to automatically apply specific brightness offsets for different times of the day (e.g., a dimmer display at night) - of course for free and with no ads.
+EasyNits is a simple brightness management tool designed for comfort, automation, and personalization. The app includes features like \"Dynamic Nits Control\" with fast ambient light detection for responsive, smooth transitions, \"Personalized Offsets\" to manually fine-tune the brightness baseline to suit your comfort level, and \"Scheduled Time Frames\" to automatically apply specific brightness offsets for different times of the day (e.g., a dimmer display at night) - open, for free, and with no ads.
+
+EasyNits | Time Frame | Scheduled Offset | Settings
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/user-attachments/assets/fdafa6bf-1971-4990-93b8-a3618a738249)|![](https://github.com/user-attachments/assets/2adaef71-354d-47bb-9909-893501c5ec0f)|![](https://github.com/user-attachments/assets/a13bf324-c82e-49e2-9bbd-a9ef595ad9d1)|![](https://github.com/user-attachments/assets/2263693a-c9d1-44bd-82f4-007490db3423)
 
 ## Features
 
@@ -34,4 +38,4 @@ EasyNits is a simple brightness management tool designed for comfort, automation
 
 What happens, when someone without any developing skills discovers AI and starts creating apps? This is EasyNits, part of EasyApps, a vibe-coding project. Apps created with AI - made for humans.
 
-This app was created in Android Studio with Gemini. Icons and images were created with GIMP.
+This app was created in Android Studio with Gemini.
