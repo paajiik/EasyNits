@@ -18,7 +18,7 @@ EasyNits | Time Frame | Scheduled Offset | Settings
 ### 🕒 Automation & Reliability
 - Scheduled Time Frames: Automatically apply specific brightness offsets at different times of the day (e.g., a dimmer display starting at 10 PM).
 - Weekday Customization: Choose specific days of the week for each scheduled offset.
-- Direct Boot Support: The app starts regulating brightness as soon as the system reaches the lock screen after a reboot, even before you enter your PIN for the first time.
+- Direct Boot Support: The app starts regulating brightness as soon as the system is running after a reboot.
 - Smart Background Service: A battery-friendly foreground service ensures the app stays active and responsive without being killed by the system.
 
 ### 🎨 Personalization & Theming
