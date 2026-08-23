@@ -12,8 +12,8 @@ EasyNits | Time Frame | Scheduled Offset | Settings
 
 - Dynamic Nits Control: Uses your device's ambient light sensor to provide responsive and smooth brightness transitions.
 - Manual Brightness Offset: A dedicated slider and step-buttons allow you to manually fine-tune the brightness baseline (±100%) to suit your immediate comfort level.
-- Intelligent Mapping: Uses a logarithmic curve and gamma correction (1.8 gamma) to ensure mid-range responsiveness that matches how human eyes perceive light.
-- Dark Environment Optimization: Guaranteed minimum baseline brightness even in pitch-black conditions, ensuring the offset controls remain effective at night.
+- Intelligent Mapping: Uses a logarithmic curve and gamma correction to ensure mid-range responsiveness that matches how human eyes perceive light.
+- Dark Environment Optimization for minimum baseline brightness even in pitch-black conditions, ensuring the offset controls remain effective at night.
 
 ### 🕒 Automation & Reliability
 - Scheduled Time Frames: Automatically apply specific brightness offsets at different times of the day (e.g., a dimmer display starting at 10 PM).
